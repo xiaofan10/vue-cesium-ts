@@ -14,11 +14,13 @@
   "dependencies": {
     "@icon-park/svg": "^1.4.2",
     "ant-design-vue": "^4.0.0",
+    "cesium": "^1.108.0",
     "consola": "^3.2.3",
     "echarts": "^5.4.3",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.4",
-    "vue": "3.2.45",
+    "vite-plugin-cesium": "^1.2.22",
+    "vue": "^3.3.4",
     "vue-color-kit": "^1.0.6",
     "vue-router": "^4.2.4"
   },
