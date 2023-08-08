@@ -21,6 +21,7 @@ onMounted(() => {
 <template>
   <div class="container">
     <div class="cesium-container" ref="cesiumContainer"></div>
+    <mars-dialog :visible="true" left="10" top="10" bottom="10" width="300"> </mars-dialog>
   </div>
 </template>
 
