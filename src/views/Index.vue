@@ -1,6 +1,18 @@
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue'
+import { inject, onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
+
+const materialTypeValue = ref('')
+const materialOptions = reactive([
+  {
+    value: '',
+    label: '无'
+  },
+  {
+    value: 'gps',
+    label: '美国GPS系统'
+  }
+])
 const cesiumContainer = ref<any>(null)
 
 const Cesium: any = inject('Cesium')
@@ -21,7 +33,18 @@ onMounted(() => {
 <template>
   <div class="container">
     <div class="cesium-container" ref="cesiumContainer"></div>
-    <mars-dialog :visible="true" left="10" top="10" bottom="10" width="300"> </mars-dialog>
+    <mars-dialog :visible="true" left="10" top="10" bottom="10" width="300" title="学习示例">
+      <a-space>
+        Space
+        <mars-select
+          ref="select"
+          v-model:value="materialTypeValue"
+          :options="materialOptions"
+          style="width: 120px"
+        >
+        </mars-select>
+      </a-space>
+    </mars-dialog>
   </div>
 </template>
 
