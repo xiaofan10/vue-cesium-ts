@@ -2,6 +2,7 @@
 import { inject, onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
 
+let viewer
 const materialTypeValue = ref('')
 const materialOptions = reactive([
   {
@@ -13,10 +14,30 @@ const materialOptions = reactive([
     label: '美国GPS系统'
   }
 ])
+
+const dialogVisible = ref<Boolean>(false)
+
+const handleDialog = () => {
+  dialogVisible.value = !dialogVisible.value
+  const ellipse = viewer.entities.add({
+    position: Cesium.Cartesian3.fromDegrees(113.9236839, 22.528061),
+    ellipse: {
+      semiMajorAxis: 1000,
+      semiMinorAxis: 1000,
+      height: 1000,
+      material: new Cesium.Scene.RadarLineMaterialProperty({
+        color: Cesium.Color.RED,
+        speed: 20
+      })
+    }
+  })
+  viewer.zoomTo(ellipse)
+  console.log(ellipse)
+}
+
 const cesiumContainer = ref<any>(null)
 
 const Cesium: any = inject('Cesium')
-let viewer
 function initCesium() {
   // Cesium.Ion.defaultAccessToken =
   //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkY2UyZDI3NS02M2NjLTQ1OTUtODBmMC03YWNhYzk1NzU2M2MiLCJpZCI6MTU2MDQyLCJpYXQiOjE2OTAyMDc4ODR9.BmN3pOpnSPgJa2eBzYBHt5xrnMaIlV7MdcNrvowXpfs'
@@ -33,9 +54,9 @@ onMounted(() => {
 <template>
   <div class="container">
     <div class="cesium-container" ref="cesiumContainer"></div>
-    <mars-dialog :visible="true" left="10" top="10" bottom="10" width="300" title="学习示例">
+    <mars-dialog :visible="true" left="10" top="10" bottom="10" width="300" title="UI组件展示">
       <a-space>
-        Space
+        Select
         <mars-select
           ref="select"
           v-model:value="materialTypeValue"
@@ -44,7 +65,17 @@ onMounted(() => {
         >
         </mars-select>
       </a-space>
+      <br />
+      <br />
+      <a-space>
+        <mars-button size="small" @click="handleDialog">dialog</mars-button>
+      </a-space>
+      <br />
+      <br />
+      <mars-input placeholder="input"></mars-input>
     </mars-dialog>
+
+    <mars-dialog :visible="dialogVisible" right="10" width="300" title="dialog"> </mars-dialog>
   </div>
 </template>
 

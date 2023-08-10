@@ -6,9 +6,9 @@
   </a-input>
 </template>
 <script lang="ts">
-import { useAttrs, useSlots, defineComponent } from "vue"
+import { useAttrs, useSlots, defineComponent } from 'vue'
 export default defineComponent({
-  name: "mars-input",
+  name: 'mars-input',
   inheritAttrs: false,
   setup() {
     const attrs = useAttrs()
@@ -25,6 +25,7 @@ export default defineComponent({
   color: var(--mars-text-color);
   background-color: transparent !important;
   font-size: 12px !important;
+
   :deep(.ant-input) {
     background-color: transparent !important;
     border-color: var(--mars-base-border-color);
@@ -32,6 +33,9 @@ export default defineComponent({
   }
   :deep(.ant-input-suffix .anticon) {
     color: var(--mars-text-color);
+  }
+  &::-webkit-input-placeholder {
+    color: #bfbfbf;
   }
 }
 .ant-input-affix-wrapper-focused {

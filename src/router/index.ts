@@ -11,6 +11,32 @@ const router = createRouter({
         title: 'Index'
       },
       component: Index
+    },
+    {
+      path: '/SpecialEffects',
+      name: 'SpecialEffects',
+      meta: {
+        title: 'SpecialEffects'
+      },
+      redirect: '/SpecialEffects/Rain',
+      children: [
+        {
+          path: 'Rain',
+          name: 'Rain',
+          meta: {
+            title: 'Rain'
+          },
+          component: () => import('@/views/SpecialEffects/Rain.vue')
+        },
+        {
+          path: 'Cube',
+          name: 'Cube',
+          meta: {
+            title: 'Cube'
+          },
+          component: () => import('@/views/SpecialEffects/Cube.vue')
+        }
+      ]
     }
   ]
 })

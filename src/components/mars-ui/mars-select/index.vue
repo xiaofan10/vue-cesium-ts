@@ -6,9 +6,9 @@
   </a-select>
 </template>
 <script lang="ts">
-import { useAttrs, useSlots, defineComponent } from "vue"
+import { useAttrs, useSlots, defineComponent } from 'vue'
 export default defineComponent({
-  name: "mars-select",
+  name: 'mars-select',
   inheritAttrs: false,
   setup() {
     const attrs = useAttrs()
@@ -26,12 +26,19 @@ export default defineComponent({
   background-color: transparent !important;
   background: none;
   :deep(.ant-select-selector) {
+    color: var(--mars-text-color);
     border-color: var(--mars-base-border-color) !important;
     background: none;
     background-color: transparent !important;
     &:hover,
     &:focus {
       border-color: #4db3ff !important;
+    }
+  }
+  &.ant-select-open {
+    color: #bfbfbf;
+    :deep(.ant-select-selection-item) {
+      color: #bfbfbf;
     }
   }
 
