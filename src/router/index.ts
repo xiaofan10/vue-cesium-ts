@@ -37,6 +37,24 @@ const router = createRouter({
           component: () => import('@/views/SpecialEffects/Cube.vue')
         }
       ]
+    },
+    {
+      path: '/CesiumEffects',
+      name: 'CesiumEffects',
+      meta: {
+        title: 'CesiumEffects'
+      },
+      redirect: '/CesiumEffects/Material',
+      children: [
+        {
+          path: 'Material',
+          name: 'Material',
+          meta: {
+            title: 'Material'
+          },
+          component: () => import('@/views/CesiumEffects/Material.vue')
+        }
+      ]
     }
   ]
 })

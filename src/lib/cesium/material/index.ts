@@ -1,20 +1,7 @@
 import { installRadarLineMaterialProperty } from './RadarLineMaterialProperty'
-// import type Cesium from 'cesium'
-
-function loadShaderFromFile(filename: URL) {
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest()
-    request.open('GET', filename, true)
-    request.onreadystatechange = () => {
-      if (request.readyState === 4 && request.status === 200) {
-        resolve(request.responseText)
-      } else {
-        reject()
-      }
-    }
-    request.send()
-  })
-}
+import { installRadarScanMaterialProperty } from './RadarScanMaterialProperty'
+import { installPolylineLightMaterialProperty } from './PolylineLightMaterialProperty'
+import { installPolylineDynamicMaterialProperty } from './PolylineDynamicMaterialProperty'
 
 export default class Material {
   Cesium: any
@@ -23,8 +10,11 @@ export default class Material {
     this._installMaterial(Cesium)
   }
 
-  _installMaterial(Cesium: any) {
+  private _installMaterial(Cesium: any) {
     // ellipse 雷达材质
     installRadarLineMaterialProperty(Cesium)
+    installRadarScanMaterialProperty(Cesium)
+    installPolylineLightMaterialProperty(Cesium)
+    installPolylineDynamicMaterialProperty(Cesium)
   }
 }

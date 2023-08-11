@@ -2,8 +2,11 @@
 import { inject, onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
 
+const Cesium: any = inject('Cesium')
+console.log(Cesium.Property.getValueOrDefault)
 let viewer
-const materialTypeValue = ref('')
+const cesiumContainer = ref<any>(null)
+const materialTypeValue = ref<string>('')
 const materialOptions = reactive([
   {
     value: '',
@@ -26,7 +29,7 @@ const handleDialog = () => {
       semiMinorAxis: 1000,
       height: 1000,
       material: new Cesium.Scene.RadarLineMaterialProperty({
-        color: Cesium.Color.RED,
+        color: Cesium.Color.GREEN,
         speed: 20
       })
     }
@@ -35,9 +38,6 @@ const handleDialog = () => {
   console.log(ellipse)
 }
 
-const cesiumContainer = ref<any>(null)
-
-const Cesium: any = inject('Cesium')
 function initCesium() {
   // Cesium.Ion.defaultAccessToken =
   //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkY2UyZDI3NS02M2NjLTQ1OTUtODBmMC03YWNhYzk1NzU2M2MiLCJpZCI6MTU2MDQyLCJpYXQiOjE2OTAyMDc4ODR9.BmN3pOpnSPgJa2eBzYBHt5xrnMaIlV7MdcNrvowXpfs'
