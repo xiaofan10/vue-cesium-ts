@@ -1,3 +1,22 @@
+<template>
+  <div class="container">
+    <div class="cesium-container" ref="cesiumContainer"></div>
+    <mars-dialog :visible="true" left="10" top="10" bottom="10" width="300" title="UI组件展示">
+      <a-space>
+        材料特效
+        <mars-select
+          ref="select"
+          v-model:value="materialTypeValue"
+          :options="materialOptions"
+          style="width: 120px"
+          @change="onMaterialChange"
+        >
+        </mars-select>
+      </a-space>
+    </mars-dialog>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { inject, onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
@@ -11,7 +30,7 @@ const materialTypeValue = ref<string>('')
 const materialOptions = reactive([
   {
     value: '',
-    label: '无'
+    label: '请选择特效'
   },
   {
     value: 'RadarLine',
@@ -28,6 +47,14 @@ const materialOptions = reactive([
   {
     value: 'PolylineDynamic',
     label: '动态轨迹'
+  },
+  {
+    value: 'pathTrajectory',
+    label: '飞机航线'
+  },
+  {
+    value: 'BallMaterial',
+    label: '球动态材质'
   }
 ])
 
@@ -188,19 +215,43 @@ const setPolylineDynamic = () => {
     Math.random() / 100 + 30.627042558105988
   )
   const positions = math3d.getLinkedPointList(startPoint, endPoint, 100000, 50)
-  // const entity = viewer.entities.add({
-  //   polyline: {
-  //     positions,
-  //     width: 5,
-  //     material: new Cesium.Scene.PolylineDynamicMaterialProperty({
-  //       color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
-  //       duration: 1500
-  //     })
-  //   }
-  // })
+  const entity = viewer.entities.add({
+    polyline: {
+      positions,
+      width: 5,
+      material: new Cesium.Scene.PolylineDynamicMaterialProperty({
+        color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
+        duration: 1500
+      })
+    }
+  })
+
+  viewer.zoomTo(entity)
+}
+
+const setTrajectoryPath = () => {
+  const startPoint = Cesium.Cartesian3.fromDegrees(104.081701757991, 30.627042558105988)
+  const endPoint = Cesium.Cartesian3.fromDegrees(
+    Math.random() / 100 + 104.081701757991,
+    Math.random() / 100 + 30.627042558105988
+  )
+  const positions = math3d.getLinkedPointList(startPoint, endPoint, 100000, 50)
   const entity = createTrajectoryPolyline({ positions, duration: 800 })
 
   viewer.zoomTo(entity)
+}
+
+const setBall = () => {
+  const ellipsoid = new Cesium.EllipsoidGraphics({
+    position: Cesium.Cartesian3.fromDegrees(104.081701757991, 30.627042558105988),
+    radii: new Cesium.Cartesian3(500, 500, 500), //单位 米
+    material: new Cesium.Scene.WallDynamicMaterialProperty({
+      image: '/assets/images/texture/test1.png',
+      color: Cesium.Color.BLUE
+    }),
+    maximumCone: Cesium.Math.PI_OVER_TWO
+  })
+  viewer.zoomTo(ellipsoid)
 }
 
 const onMaterialChange = (val) => {
@@ -218,6 +269,12 @@ const onMaterialChange = (val) => {
       break
     case 'PolylineDynamic':
       setPolylineDynamic()
+      break
+    case 'pathTrajectory':
+      setTrajectoryPath()
+      break
+    case 'BallMaterial':
+      setBall()
       break
     default:
   }
@@ -237,25 +294,6 @@ onMounted(() => {
   initCesium()
 })
 </script>
-
-<template>
-  <div class="container">
-    <div class="cesium-container" ref="cesiumContainer"></div>
-    <mars-dialog :visible="true" left="10" top="10" bottom="10" width="300" title="UI组件展示">
-      <a-space>
-        Select
-        <mars-select
-          ref="select"
-          v-model:value="materialTypeValue"
-          :options="materialOptions"
-          style="width: 120px"
-          @change="onMaterialChange"
-        >
-        </mars-select>
-      </a-space>
-    </mars-dialog>
-  </div>
-</template>
 
 <style lang="less" scoped>
 .container {

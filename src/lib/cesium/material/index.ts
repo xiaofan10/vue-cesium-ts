@@ -2,6 +2,7 @@ import { installRadarLineMaterialProperty } from './RadarLineMaterialProperty'
 import { installRadarScanMaterialProperty } from './RadarScanMaterialProperty'
 import { installPolylineLightMaterialProperty } from './PolylineLightMaterialProperty'
 import { installPolylineDynamicMaterialProperty } from './PolylineDynamicMaterialProperty'
+import { installWallDynamicMaterialProperty } from './WallDynamicMaterialProperty'
 
 export default class Material {
   Cesium: any
@@ -16,5 +17,6 @@ export default class Material {
     installRadarScanMaterialProperty(Cesium)
     installPolylineLightMaterialProperty(Cesium)
     installPolylineDynamicMaterialProperty(Cesium)
+    installWallDynamicMaterialProperty(Cesium)
   }
 }
