@@ -34,7 +34,7 @@ export default defineComponent({
   :deep(.ant-input-suffix .anticon) {
     color: var(--mars-text-color);
   }
-  &::-webkit-input-placeholder {
+  &::placeholder {
     color: #bfbfbf;
   }
 }

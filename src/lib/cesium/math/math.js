@@ -1,10 +1,6 @@
-import type CesiumType from 'cesium'
-let Cesium: any
-
+let Cesium
 class Math3d {
-  private _viewer: CesiumType.Viewer | undefined
-
-  constructor(viewer: CesiumType.Viewer, cesiumGlobal: any) {
+  constructor(viewer, cesiumGlobal) {
     if (viewer) {
       this._viewer = viewer
       Cesium = cesiumGlobal

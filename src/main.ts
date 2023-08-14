@@ -9,8 +9,10 @@ import '@/components/mars-ui/common'
 import InstallUI from '@/components/mars-ui/index'
 import * as Cesium from 'cesium'
 import Material from '@/lib/cesium/material/index'
+import './plugins/index'
 
 const app = createApp(App)
+console.log(import.meta.env.VITE_ENV)
 
 InstallUI(app)
 new Material(Cesium)

@@ -1,11 +1,10 @@
-import type CesiumType from 'cesium'
 function installWallDynamicMaterialProperty(Cesium: any) {
   class WallDynamicMaterialProperty {
-    private _definitionChanged: CesiumType.Event
-    private _color: CesiumType.Color | undefined
+    private _definitionChanged
+    private _color
     private _time: number
     public image: any
-    public color: CesiumType.Color
+    public color
     public duration: number
 
     constructor(options: any = {}) {
@@ -21,7 +20,7 @@ function installWallDynamicMaterialProperty(Cesium: any) {
       return false
     }
 
-    get definitionChanged(): CesiumType.Event {
+    get definitionChanged() {
       return this._definitionChanged
     }
 
@@ -29,7 +28,7 @@ function installWallDynamicMaterialProperty(Cesium: any) {
       return WallDynamicMaterialProperty.MaterialType
     }
 
-    getValue(time: CesiumType.JulianDate, result: any): any {
+    getValue(time, result: any): any {
       if (!Cesium.defined(result)) {
         result = {}
       }
@@ -53,7 +52,7 @@ function installWallDynamicMaterialProperty(Cesium: any) {
       )
     }
 
-    static MaterialType: string = 'wallType' + parseInt(Math.random() * 1000)
+    static MaterialType: string = 'wallType' + parseInt((Math.random() * 1000).toString())
 
     static install(Cesium: any): void {
       const Color = Cesium.Color

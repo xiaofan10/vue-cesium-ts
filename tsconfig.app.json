@@ -1,8 +1,25 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/view/*", "src/view/*.vue"],
   "exclude": ["src/**/__tests__/*"],
+
   "compilerOptions": {
+    // "useDefineForClassFields": true,
+    // "forceConsistentCasingInFileNames": true,
+    // "allowSyntheticDefaultImports": true,
+    // "strictFunctionTypes": false,
+    // "strictNullChecks": false,
+    // "jsx": "preserve",
+    // "allowJs": true,
+    // "sourceMap": true,
+    // "alwaysStrict": true,
+    // "noImplicitAny": false,
+    // "experimentalDecorators": true,
+    // "resolveJsonModule": true,
+    // "esModuleInterop": true,
+    "module": "esnext",
+    "strict": false,
+    "skipLibCheck": true,
     "composite": true,
     "baseUrl": ".",
     "paths": {

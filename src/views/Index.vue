@@ -2,9 +2,11 @@
 import { inject, onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
 
+let a: string = '234'
 const Cesium: any = inject('Cesium')
 console.log(Cesium.Property.getValueOrDefault)
 let viewer
+
 const cesiumContainer = ref<any>(null)
 const materialTypeValue = ref<string>('')
 const materialOptions = reactive([
