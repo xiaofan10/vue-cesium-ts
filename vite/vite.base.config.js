@@ -1,6 +1,6 @@
 import path from 'path'
 import { URL, fileURLToPath } from 'node:url'
-import checker from 'vite-plugin-checker'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { createStyleImportPlugin, AndDesignVueResolve } from 'vite-plugin-style-import'
@@ -11,7 +11,7 @@ import pxToRem from 'postcss-pxtorem'
 // 获取文件当前路径 也可以直接使用__dirname
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-export default {
+export default defineConfig({
   // eslint-disable-next-line no-undef
   envDir: path.join(process.cwd(), '/env'),
   plugins: [
@@ -67,4 +67,4 @@ export default {
       }
     }
   }
-}
+})
