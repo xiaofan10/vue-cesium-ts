@@ -1,4 +1,5 @@
 import * as Cesium from 'cesium'
+let num = 0
 function installPolylineLightMaterialProperty(Cesium: any) {
   class PolylineLightMaterialProperty {
     private _definitionChanged: Cesium.Event = new Cesium.Event()
@@ -38,8 +39,7 @@ function installPolylineLightMaterialProperty(Cesium: any) {
       if (!result) {
         result = {}
       }
-
-      result.color = Cesium.Property.getValueOrClonedDefault(this._color, time, Cesium.Color.WHITE)
+      result.color = this.color
       result.image = this._image
 
       if (this._time === undefined) {

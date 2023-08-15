@@ -11,7 +11,7 @@ const router = createRouter({
         title: 'Index'
       },
       component: Index
-    }
+    },
     // {
     //   path: '/SpecialEffects',
     //   name: 'SpecialEffects',
@@ -38,24 +38,32 @@ const router = createRouter({
     //     }
     //   ]
     // },
-    // {
-    //   path: '/CesiumEffects',
-    //   name: 'CesiumEffects',
-    //   meta: {
-    //     title: 'CesiumEffects'
-    //   },
-    //   redirect: '/CesiumEffects/Material',
-    //   children: [
-    //     {
-    //       path: 'Material',
-    //       name: 'Material',
-    //       meta: {
-    //         title: 'Material'
-    //       },
-    //       component: () => import('@/views/CesiumEffects/Material.vue')
-    //     }
-    //   ]
-    // }
+    {
+      path: '/CesiumEffects',
+      name: 'CesiumEffects',
+      meta: {
+        title: 'CesiumEffects'
+      },
+      redirect: '/CesiumEffects/Material',
+      children: [
+        {
+          path: 'Material',
+          name: 'Material',
+          meta: {
+            title: 'Material'
+          },
+          component: () => import('@/views/CesiumEffects/Material.vue')
+        },
+        {
+          path: 'Fly',
+          name: 'Fly',
+          meta: {
+            title: 'Fly'
+          },
+          component: () => import('@/views/CesiumEffects/Fly.vue')
+        }
+      ]
+    }
   ]
 })
 

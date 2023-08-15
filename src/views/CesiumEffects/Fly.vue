@@ -13,6 +13,10 @@
         >
         </mars-select>
       </a-space>
+      <p>
+        <mars-button @click="setDynamicGeoEdge">设置流动边界地图图层</mars-button>
+        <mars-button @click="setLoadGeo">设置地形地图图层</mars-button>
+      </p>
     </mars-dialog>
   </div>
 </template>
@@ -21,6 +25,8 @@
 import { inject, onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
 import { Math3d } from '@/lib/cesium/math/math'
+import chinaGeoJson from '@/assets/geo/chinaGeoJson.json'
+console.log(chinaGeoJson)
 
 const Cesium: any = inject('Cesium')
 let viewer
@@ -33,28 +39,8 @@ const materialOptions = reactive([
     label: '请选择特效'
   },
   {
-    value: 'RadarLine',
-    label: '简单雷达'
-  },
-  {
-    value: 'RadarScan',
-    label: '雷达扫描'
-  },
-  {
-    value: 'PolylineLight',
-    label: '城市路线'
-  },
-  {
-    value: 'PolylineDynamic',
-    label: '动态轨迹'
-  },
-  {
     value: 'pathTrajectory',
     label: '飞机航线'
-  },
-  {
-    value: 'BallMaterial',
-    label: '球动态材质'
   }
 ])
 
@@ -98,23 +84,39 @@ const setRadarScan = () => {
   })
   viewer.zoomTo(ellipse)
 }
-const setPolylineLight = () => {
-  const entity = viewer.entities.add({
-    position: Cesium.Cartesian3.fromDegrees(113.9236839, 22.528061),
-    polyline: {
-      positions: [
-        Cesium.Cartesian3.fromDegrees(113.9236839, 23.528061),
-        Cesium.Cartesian3.fromDegrees(115.9236839, 23.528061),
-        Cesium.Cartesian3.fromDegrees(115.9236839, 24.528061)
-      ],
-      width: 5,
-      material: new Cesium.Scene.PolylineLightMaterialProperty({
-        color: Cesium.Color.BLUE,
-        duration: 1500
-      })
-    }
+
+const setDynamicGeoEdge = () => {
+  chinaGeoJson.arcs.forEach((item, i) => {
+    const color = Cesium.Color.fromRandom()
+    viewer.entities.add({
+      polyline: {
+        positions: item.map((pos) => {
+          return Cesium.Cartesian3.fromDegrees(...pos)
+        }),
+        width: 3,
+        material: new Cesium.Scene.PolylineLightMaterialProperty({
+          color: color,
+          duration: 5000
+        })
+      }
+    })
   })
-  viewer.zoomTo(entity)
+  // const entity = viewer.entities.add({
+  //   position: Cesium.Cartesian3.fromDegrees(113.9236839, 22.528061),
+  //   polyline: {
+  //     positions: [
+  //       Cesium.Cartesian3.fromDegrees(113.9236839, 23.528061),
+  //       Cesium.Cartesian3.fromDegrees(115.9236839, 23.528061),
+  //       Cesium.Cartesian3.fromDegrees(115.9236839, 24.528061)
+  //     ],
+  //     width: 5,
+  //     material: new Cesium.Scene.PolylineLightMaterialProperty({
+  //       color: new Cesium.Color(5.0, 5.0, 10.0),
+  //       duration: 1500
+  //     })
+  //   }
+  // })
+  // viewer.zoomTo(entity)
 }
 
 const createTrajectoryPolyline = (options) => {
@@ -253,29 +255,76 @@ const setBall = () => {
   })
   viewer.zoomTo(ellipsoid)
 }
+const setCamera = () => {
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(116.2317, 39.5427, 20000000.0),
+    //包含方向和向上属性或航向、俯仰和滚动属性的物体。默认情况下，方向将指向框架的中心在3D 和负 z 方向在哥伦布视图。
+    //上行方向将指向当地北部的3D 和正 y 方向的哥伦布视图。在无限滚动模式下，2D 中不使用定位。
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-90),
+      roll: 0.0
+    }
+  })
+}
+const setLoadGeo = async () => {
+  // removeEntities()
+  const chinaGeoJson = await Cesium.GeoJsonDataSource.load('/assets/geo/china.topo.json')
+  const entities = chinaGeoJson.entities.values
+  console.log(entities)
+  entities.forEach((item, i) => {
+    const color = Cesium.Color.fromRandom()
+    item.type = 'map'
+    if (item.polygon?.material) {
+      item.polygon.material = color
+      item.polygon.extrudedHeight = Math.ceil(Math.random() * 1000000) % 500000
+      item.polygon.outline = false
+      // item.polygon.outlineWidth = 100
+      // item.polygon.outlineColor = new Cesium.Scene.PolylineLightMaterialProperty({
+      //   color: Cesium.Color.BLUE,
+      //   duration: 1500
+      // })
+      // Cesium.Color.fromAlpha(Cesium.Color.YELLOW, 1.0)
+      // item.polygon.fill = false
+      if (item.properties.center) {
+        const center = item.properties.center.getValue()
+        item.position = Cesium.Cartesian3.fromDegrees(center[0], center[1], 0)
+        item.label = {
+          text: item.name,
+          font: '10px sans-serif',
+          fillColor: Cesium.Color.BLACK,
+          outlineColor: Cesium.Color.RED,
+          outlineWidth: 5,
+
+          showBackground: false,
+          backgroundColor: Cesium.Color.BLUE,
+          translucencyByDistance: new Cesium.NearFarScalar(10000000, 1.0, 20000000, 0.0)
+        }
+      }
+    }
+  })
+  viewer.dataSources.add(chinaGeoJson)
+  const handle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
+  handle.setInputAction((res) => {
+    const feature = viewer.scene.pick(res.position)
+    if (feature?.id?.polygon) {
+      entities.forEach((item) => {
+        if (item.polygon) {
+          item.polygon.extrudedHeight = 10
+        }
+      })
+      feature.id.polygon.extrudedHeight = 1000000
+    }
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+}
 
 const onMaterialChange = (val) => {
-  console.log(val)
   removeEntities()
   switch (val) {
     case 'RadarLine':
       setRadarLine()
       break
-    case 'RadarScan':
-      setRadarScan()
-      break
-    case 'PolylineLight':
-      setPolylineLight()
-      break
-    case 'PolylineDynamic':
-      setPolylineDynamic()
-      break
-    case 'pathTrajectory':
-      setTrajectoryPath()
-      break
-    case 'BallMaterial':
-      setBall()
-      break
+
     default:
   }
 }
@@ -292,6 +341,7 @@ function initCesium() {
 
 onMounted(() => {
   initCesium()
+  setCamera()
 })
 </script>
 
