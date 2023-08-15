@@ -8,33 +8,16 @@
   //     "path": "./tsconfig.app.json"
   //   }
   // ]
-  "include": ["env.d.ts", "index.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*.d.ts", "src/**/*", "src/**/*.vue"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "module": "esnext",
-    "strict": false,
-    "composite": true,
-    "baseUrl": ".",
     "moduleResolution": "node",
+    "strict": false,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   }
-  //   // "useDefineForClassFields": true,
-  //   // "forceConsistentCasingInFileNames": true,
-  //   // "allowSyntheticDefaultImports": true,
-  //   // "strictFunctionTypes": false,
-  //   // "strictNullChecks": false,
-  //   // "jsx": "preserve",
-  //   // "allowJs": true,
-  //   // "sourceMap": true,
-  //   // "alwaysStrict": true,
-  //   // "noImplicitAny": false,
-  //   // "experimentalDecorators": true,
-  //   // "resolveJsonModule": true,
-  //   // "esModuleInterop": true
-  // },
-  // "vueCompilerOptions": {
-  //   "experimentalDisableTemplateSupport": true
-  // }
+ 
 }

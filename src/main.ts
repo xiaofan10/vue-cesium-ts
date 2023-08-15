@@ -13,7 +13,6 @@ import './plugins/index'
 
 const app = createApp(App)
 console.log(import.meta.env.VITE_ENV)
-
 InstallUI(app)
 new Material(Cesium)
 
