@@ -12,21 +12,32 @@ const MaterialLineImage = [
 ]
 class PolylineDynamicMaterialProperty {
   private _definitionChanged: Cesium.Event = new Cesium.Event()
-  private _color: Cesium.Color | undefined
+  private _color: Cesium.ConstantProperty | undefined
   private _time: number | undefined
   private _image = MaterialLineImage[1]
   duration: number
-  color: Cesium.Color | undefined
   type = 'PolylineDynamicMaterialType'
 
-  constructor(options: { color?: Cesium.Color; duration?: number; image?: string }) {
+  constructor(options) {
     this._color = undefined
-    this._image = options.image || this._image
     this._time = undefined
-
+    this._image = options.image || this._image
     this.color = options.color || Cesium.Color.BLUE
     this.duration = options.duration || 1000
-    console.log(options)
+    this.init()
+  }
+
+  get color() {
+    return this._color
+  }
+
+  set color(value) {
+    const oldValue = this._color
+
+    if (oldValue !== value) {
+      this._color = new Cesium.ConstantProperty(value as any)
+      // this._definitionChanged.raiseEvent(this, 'color', value, oldValue)
+    }
   }
 
   get isVariant(): boolean {
@@ -37,16 +48,18 @@ class PolylineDynamicMaterialProperty {
     return this._definitionChanged
   }
 
-  getType(): string {
+  getType() {
+    console.log(this.type,234)
     return this.type
   }
 
-  getValue(time: Cesium.JulianDate, result: any): any {
+  getValue(time: Cesium.JulianDate, result) {
+    console.log(123)
     if (!result) {
       result = {}
     }
 
-    result.color = this.color
+    result.color = Cesium.Property['getValueOrDefault'](this._color, time, result.color)
     result.image = this._image
     console.log(result)
     if (this._time === undefined) {
@@ -66,6 +79,7 @@ class PolylineDynamicMaterialProperty {
   init() {
     const { type } = this
     const shader = `
+      uniform vec4 color;
       czm_material czm_getMaterial(czm_materialInput materialInput)\n\
         {\n\
             czm_material material = czm_getDefaultMaterial(materialInput);\n\
