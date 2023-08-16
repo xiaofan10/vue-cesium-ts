@@ -1,4 +1,6 @@
-function installWallDynamicMaterialProperty(Cesium: any) {
+// @ts-nocheck
+import * as Cesium from 'cesium'
+function installWallDynamicMaterialProperty() {
   class WallDynamicMaterialProperty {
     private _definitionChanged
     private _color

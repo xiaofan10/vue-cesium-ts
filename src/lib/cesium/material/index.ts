@@ -1,22 +1,15 @@
-import { installRadarLineMaterialProperty } from './RadarLineMaterialProperty'
-import { installRadarScanMaterialProperty } from './RadarScanMaterialProperty'
-import { installPolylineLightMaterialProperty } from './PolylineLightMaterialProperty'
-import { installPolylineDynamicMaterialProperty } from './PolylineDynamicMaterialProperty'
+// import { installRadarLineMaterialProperty } from './RadarLineMaterialProperty'
+
 import { installWallDynamicMaterialProperty } from './WallDynamicMaterialProperty'
 
 export default class Material {
-  Cesium: any
   constructor(Cesium: any) {
-    this.Cesium = Cesium
-    this._installMaterial(Cesium)
+    this._installMaterial()
   }
 
-  private _installMaterial(Cesium: any) {
+  private _installMaterial() {
     // ellipse 雷达材质
-    installRadarLineMaterialProperty(Cesium)
-    installRadarScanMaterialProperty(Cesium)
-    installPolylineLightMaterialProperty(Cesium)
-    installPolylineDynamicMaterialProperty(Cesium)
-    installWallDynamicMaterialProperty(Cesium)
+
+    installWallDynamicMaterialProperty()
   }
 }

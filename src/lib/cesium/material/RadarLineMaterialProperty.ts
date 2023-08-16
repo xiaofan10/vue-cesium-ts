@@ -1,57 +1,76 @@
-/*
- * @Description: 雷达线效果（参考开源代码）
- * @params options
- * color
- * speed
- */
+import * as Cesium from 'cesium'
 
-function installRadarLineMaterialProperty(Cesium) {
-  class RadarLineMaterialProperty {
-    private _definitionChanged
-    private _color: any
-    private _speed: any
-    color
-    speed
-    constructor(options) {
-      this._definitionChanged = new Cesium.Event()
-      this._color = undefined
-      this._speed = undefined
-      this.color = options.color
-      this.speed = options.speed
-    }
+class RadarLineMaterialProperty {
+  private _definitionChanged
+  private _color: any
+  private _speed: any
+  type = 'RadarLineMaterialType'
+  constructor(options) {
+    this._definitionChanged = new Cesium.Event()
+    this._color = undefined
+    this._speed = undefined
+    this.color = options.color
+    this.speed = Cesium.defaultValue(options.speed, 10)
+    this.init()
+  }
 
-    get isConstant() {
-      return false
-    }
+  get color() {
+    return this._color
+  }
 
-    get definitionChanged() {
-      return this._definitionChanged
-    }
+  set color(value) {
+    const oldValue = this._color
 
-    getType() {
-      return Cesium.Material?.RadarLineMaterialType
-    }
-
-    getValue(time, result) {
-      if (!Cesium.defined(result)) {
-        result = {}
-      }
-      result.color = Cesium.Property.getValueOrDefault(this._color, time, this.color)
-      result.speed = Cesium.Property.getValueOrDefault(this._speed, time, this.speed)
-      return result
-    }
-
-    equals(other) {
-      return (
-        this === other ||
-        (other instanceof RadarLineMaterialProperty &&
-          Cesium.Property.equals(this._color, other._color) &&
-          Cesium.Property.equals(this._speed, other._speed))
-      )
+    if (oldValue !== value) {
+      this._color = new Cesium.ConstantProperty(value as any)
+      this._definitionChanged.raiseEvent(this, 'color', value, oldValue)
     }
   }
 
-  function registerMaterialCache() {
+  get speed() {
+    return this._speed
+  }
+
+  set speed(value) {
+    const oldValue = this._speed
+
+    if (oldValue !== value) {
+      this._speed = value
+      this._definitionChanged.raiseEvent(this, 'speed', value, oldValue)
+    }
+  }
+
+  get isConstant() {
+    return false
+  }
+
+  get definitionChanged() {
+    return this._definitionChanged
+  }
+
+  getType() {
+    return this.type
+  }
+
+  getValue(time, result) {
+    console.log(result, this._speed)
+    if (!Cesium.defined(result)) {
+      result = {}
+    }
+    result.color = Cesium.Property['getValueOrDefault'](this._color, time, result.color)
+    result.speed = this._speed
+    return result
+  }
+
+  equals(other) {
+    return (
+      this === other ||
+      (other instanceof RadarLineMaterialProperty &&
+        Cesium.Property['equals'](this._color, other._color) &&
+        Cesium.Property['equals'](this._speed, other._speed))
+    )
+  }
+  init() {
     const shader = `
        uniform vec4 color;
        uniform float speed;
@@ -78,26 +97,21 @@ function installRadarLineMaterialProperty(Cesium) {
           return material;
         }
       `
-    Cesium.Scene.RadarLineMaterialProperty = RadarLineMaterialProperty
-    Cesium.Material.RadarLineMaterialProperty = 'RadarLineMaterialProperty'
-    Cesium.Material.RadarLineMaterialType = 'RadarLineMaterialType'
-    Cesium.Material.RadarLineMaterialSource = shader
-    Cesium.Material._materialCache.addMaterial(Cesium.Material.RadarLineMaterialType, {
+    const { type } = this
+    Cesium.Material['_materialCache'].addMaterial(type, {
       fabric: {
-        type: Cesium.Material.RadarLineMaterialType,
+        type: type,
         uniforms: {
           color: Cesium.Color.RED,
           speed: 10
         },
-        source: Cesium.Material.RadarLineMaterialSource
+        source: shader
       },
-      translucent: function (material) {
+      translucent: function () {
         return true
       }
     })
   }
-
-  registerMaterialCache()
 }
 
-export { installRadarLineMaterialProperty }
+export { RadarLineMaterialProperty }

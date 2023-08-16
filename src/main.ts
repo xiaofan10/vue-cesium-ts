@@ -1,5 +1,4 @@
 import './assets/main.less'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -13,10 +12,10 @@ import './plugins/index'
 
 const app = createApp(App)
 console.log(import.meta.env.VITE_ENV)
+window.Cesium = Cesium
+
 InstallUI(app)
 new Material(Cesium)
-
-app.provide('Cesium', Cesium)
 
 app.use(createPinia())
 app.use(router)

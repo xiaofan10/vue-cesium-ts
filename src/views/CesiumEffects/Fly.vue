@@ -22,13 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, reactive, ref } from 'vue'
+import * as Cesium from 'cesium'
+import { onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
 import { Math3d } from '@/lib/cesium/math/math'
 import chinaGeoJson from '@/assets/geo/chinaGeoJson.json'
 console.log(chinaGeoJson)
 
-const Cesium: any = inject('Cesium')
 let viewer
 let math3d
 const cesiumContainer = ref<any>(null)
@@ -94,6 +94,7 @@ const setDynamicGeoEdge = () => {
           return Cesium.Cartesian3.fromDegrees(...pos)
         }),
         width: 3,
+        // @ts-ignore
         material: new Cesium.Scene.PolylineLightMaterialProperty({
           color: color,
           duration: 5000
@@ -101,22 +102,6 @@ const setDynamicGeoEdge = () => {
       }
     })
   })
-  // const entity = viewer.entities.add({
-  //   position: Cesium.Cartesian3.fromDegrees(113.9236839, 22.528061),
-  //   polyline: {
-  //     positions: [
-  //       Cesium.Cartesian3.fromDegrees(113.9236839, 23.528061),
-  //       Cesium.Cartesian3.fromDegrees(115.9236839, 23.528061),
-  //       Cesium.Cartesian3.fromDegrees(115.9236839, 24.528061)
-  //     ],
-  //     width: 5,
-  //     material: new Cesium.Scene.PolylineLightMaterialProperty({
-  //       color: new Cesium.Color(5.0, 5.0, 10.0),
-  //       duration: 1500
-  //     })
-  //   }
-  // })
-  // viewer.zoomTo(entity)
 }
 
 const createTrajectoryPolyline = (options) => {
@@ -174,6 +159,7 @@ const createTrajectoryPolyline = (options) => {
     polyline: {
       positions,
       width: 5,
+
       material: new Cesium.Scene.PolylineDynamicMaterialProperty({
         color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
         duration: 1500
@@ -210,51 +196,6 @@ const createTrajectoryPolyline = (options) => {
   return entities
 }
 
-const setPolylineDynamic = () => {
-  const startPoint = Cesium.Cartesian3.fromDegrees(104.081701757991, 30.627042558105988)
-  const endPoint = Cesium.Cartesian3.fromDegrees(
-    Math.random() / 100 + 104.081701757991,
-    Math.random() / 100 + 30.627042558105988
-  )
-  const positions = math3d.getLinkedPointList(startPoint, endPoint, 100000, 50)
-  const entity = viewer.entities.add({
-    polyline: {
-      positions,
-      width: 5,
-      material: new Cesium.Scene.PolylineDynamicMaterialProperty({
-        color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
-        duration: 1500
-      })
-    }
-  })
-
-  viewer.zoomTo(entity)
-}
-
-const setTrajectoryPath = () => {
-  const startPoint = Cesium.Cartesian3.fromDegrees(104.081701757991, 30.627042558105988)
-  const endPoint = Cesium.Cartesian3.fromDegrees(
-    Math.random() / 100 + 104.081701757991,
-    Math.random() / 100 + 30.627042558105988
-  )
-  const positions = math3d.getLinkedPointList(startPoint, endPoint, 100000, 50)
-  const entity = createTrajectoryPolyline({ positions, duration: 800 })
-
-  viewer.zoomTo(entity)
-}
-
-const setBall = () => {
-  const ellipsoid = new Cesium.EllipsoidGraphics({
-    position: Cesium.Cartesian3.fromDegrees(104.081701757991, 30.627042558105988),
-    radii: new Cesium.Cartesian3(500, 500, 500), //单位 米
-    material: new Cesium.Scene.WallDynamicMaterialProperty({
-      image: '/assets/images/texture/test1.png',
-      color: Cesium.Color.BLUE
-    }),
-    maximumCone: Cesium.Math.PI_OVER_TWO
-  })
-  viewer.zoomTo(ellipsoid)
-}
 const setCamera = () => {
   viewer.camera.flyTo({
     destination: Cesium.Cartesian3.fromDegrees(116.2317, 39.5427, 20000000.0),
@@ -272,7 +213,7 @@ const setLoadGeo = async () => {
   const chinaGeoJson = await Cesium.GeoJsonDataSource.load('/assets/geo/china.topo.json')
   const entities = chinaGeoJson.entities.values
   console.log(entities)
-  entities.forEach((item, i) => {
+  entities.forEach((item: any, i) => {
     const color = Cesium.Color.fromRandom()
     item.type = 'map'
     if (item.polygon?.material) {
@@ -310,6 +251,7 @@ const setLoadGeo = async () => {
     if (feature?.id?.polygon) {
       entities.forEach((item) => {
         if (item.polygon) {
+          // @ts-ignore
           item.polygon.extrudedHeight = 10
         }
       })

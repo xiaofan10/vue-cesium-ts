@@ -1,63 +1,75 @@
-/*
- * @Description: 波纹雷达效果（参考开源代码）
- * @Version: 1.0
- * @Author: Julian
- * @Date: 2022-03-04 19:41:00
- * @LastEditors: Julian
- * @LastEditTime: 2022-03-04 19:42:58
- */
-function installRadarScanMaterialProperty(Cesium) {
-  class RadarScanMaterialProperty {
-    private _definitionChanged
-    private _color: any
-    private _speed: any
-    color
-    speed
-    constructor(options) {
-      this._definitionChanged = new Cesium.Event()
-      this._color = undefined
-      this._speed = undefined
-      this.color = options.color
-      this.speed = options.speed
-    }
+import * as Cesium from 'cesium'
+class RadarScanMaterialProperty {
+  private _definitionChanged
+  private _color: any
+  private _speed: any
+  type = 'RadarScanMaterialType'
+  constructor(options) {
+    this._definitionChanged = new Cesium.Event()
+    this._color = undefined
+    this._speed = undefined
+    this.color = options.color
+    this.speed = Cesium.defaultValue(options.speed, 10)
+    this.init()
+  }
+  get color() {
+    return this._color
+  }
 
-    get isConstant() {
-      return false
-    }
+  set color(value) {
+    const oldValue = this._color
 
-    get definitionChanged() {
-      return this._definitionChanged
-    }
-
-    getType(time) {
-      return Cesium.Material.RadarScanMaterialType
-    }
-
-    getValue(time, result) {
-      if (!Cesium.defined(result)) {
-        result = {}
-      }
-
-      result.color = Cesium.Property.getValueOrDefault(this._color, time, this.color)
-      result.speed = Cesium.Property.getValueOrDefault(this._speed, time, 10, result.speed)
-      return result
-    }
-
-    equals(other) {
-      return (
-        this === other ||
-        (other instanceof RadarScanMaterialProperty &&
-          Cesium.Property.equals(this._color, other._color) &&
-          Cesium.Property.equals(this._speed, other._speed))
-      )
+    if (oldValue !== value) {
+      this._color = new Cesium.ConstantProperty(value as any)
+      this._definitionChanged.raiseEvent(this, 'color', value, oldValue)
     }
   }
 
-  function registerMaterialCache() {
-    Cesium.Scene.RadarScanMaterialProperty = RadarScanMaterialProperty
-    Cesium.Material.RadarScanMaterialProperty = 'RadarScanMaterialProperty'
-    Cesium.Material.RadarScanMaterialType = 'RadarScanMaterialType'
-    Cesium.Material.RadarScanMaterialSource = `
+  get speed() {
+    return this._speed
+  }
+
+  set speed(value) {
+    const oldValue = this._speed
+
+    if (oldValue !== value) {
+      this._speed = value
+      this._definitionChanged.raiseEvent(this, 'speed', value, oldValue)
+    }
+  }
+  get isConstant() {
+    return false
+  }
+
+  get definitionChanged() {
+    return this._definitionChanged
+  }
+
+  getType() {
+    return this.type
+  }
+
+  getValue(time, result) {
+    if (!Cesium.defined(result)) {
+      result = {}
+    }
+
+    result.color = Cesium.Property['getValueOrDefault'](this._color, time, this.color)
+    result.speed = this._speed
+    return result
+  }
+
+  equals(other) {
+    return (
+      this === other ||
+      (other instanceof RadarScanMaterialProperty &&
+        Cesium.Property['equals'](this._color, other._color) &&
+        Cesium.Property['equals'](this._speed, other._speed))
+    )
+  }
+  init() {
+    const { type } = this
+    const shader = `
         uniform vec4 color;
         uniform float speed;
     
@@ -87,21 +99,20 @@ function installRadarScanMaterialProperty(Cesium) {
           }
          `
 
-    Cesium.Material._materialCache.addMaterial(Cesium.Material.RadarScanMaterialType, {
+    Cesium.Material['_materialCache'].addMaterial(type, {
       fabric: {
-        type: Cesium.Material.RadarScanMaterialType,
+        type,
         uniforms: {
           color: Cesium.Color.RED,
           speed: 10.0
         },
-        source: Cesium.Material.RadarScanMaterialSource
+        source: shader
       },
-      translucent: function (material) {
+      translucent: function () {
         return true
       }
     })
   }
-  registerMaterialCache()
 }
 
-export { installRadarScanMaterialProperty }
+export { RadarScanMaterialProperty }

@@ -18,11 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
 import { Math3d } from '@/lib/cesium/math/math'
+import * as Cesium from 'cesium'
+import { createMaterialProperty } from '@/lib/cesium/helper/index'
+import { Color } from 'cesium'
 
-const Cesium: any = inject('Cesium')
 let viewer
 let math3d
 const cesiumContainer = ref<any>(null)
@@ -74,7 +76,8 @@ const setRadarLine = () => {
       semiMajorAxis: 1000,
       semiMinorAxis: 1000,
       height: 1000,
-      material: new Cesium.Scene.RadarLineMaterialProperty({
+      // @ts-ignore
+      material: createMaterialProperty('RadarLine', {
         color: Cesium.Color.GREEN,
         speed: 20
       })
@@ -90,8 +93,9 @@ const setRadarScan = () => {
       semiMajorAxis: 1000,
       semiMinorAxis: 1000,
       height: 1000,
-      material: new Cesium.Scene.RadarScanMaterialProperty({
-        color: Cesium.Color.GREEN,
+      // @ts-ignore
+      material: createMaterialProperty('PolylineDynamic', {
+        color: new Cesium.Color(1.0, 0.0, 0.0, 1.0),
         speed: 20
       })
     }
@@ -108,7 +112,8 @@ const setPolylineLight = () => {
         Cesium.Cartesian3.fromDegrees(115.9236839, 24.528061)
       ],
       width: 5,
-      material: new Cesium.Scene.PolylineLightMaterialProperty({
+      // @ts-ignore
+      material: createMaterialProperty('PolylineLight', {
         color: Cesium.Color.BLUE,
         duration: 1500
       })
@@ -172,6 +177,7 @@ const createTrajectoryPolyline = (options) => {
     polyline: {
       positions,
       width: 5,
+      // @ts-ignore
       material: new Cesium.Scene.PolylineDynamicMaterialProperty({
         color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
         duration: 1500
@@ -219,8 +225,9 @@ const setPolylineDynamic = () => {
     polyline: {
       positions,
       width: 5,
-      material: new Cesium.Scene.PolylineDynamicMaterialProperty({
-        color: new Cesium.Color(255 / 255, 201 / 255, 38 / 255, 0.5),
+      // @ts-ignore
+      material: createMaterialProperty('PolylineDynamic', {
+        color: Cesium.Color.GREEN,
         duration: 1500
       })
     }
@@ -243,8 +250,9 @@ const setTrajectoryPath = () => {
 
 const setBall = () => {
   const ellipsoid = new Cesium.EllipsoidGraphics({
-    position: Cesium.Cartesian3.fromDegrees(104.081701757991, 30.627042558105988),
+    // position: Cesium.Cartesian3.fromDegrees(104.081701757991, 30.627042558105988),
     radii: new Cesium.Cartesian3(500, 500, 500), //单位 米
+    // @ts-ignore
     material: new Cesium.Scene.WallDynamicMaterialProperty({
       image: '/assets/images/texture/test1.png',
       color: Cesium.Color.BLUE

@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { inject, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
-
-let a: string = '234'
-const Cesium: any = inject('Cesium')
-console.log(Cesium.Property.getValueOrDefault)
-let viewer
+import * as Cesium from 'cesium'
+let viewer: Cesium.Viewer
 
 const cesiumContainer = ref<any>(null)
 const materialTypeValue = ref<string>('')
@@ -30,6 +27,7 @@ const handleDialog = () => {
       semiMajorAxis: 1000,
       semiMinorAxis: 1000,
       height: 1000,
+      // @ts-ignore
       material: new Cesium.Scene.RadarLineMaterialProperty({
         color: Cesium.Color.GREEN,
         speed: 20

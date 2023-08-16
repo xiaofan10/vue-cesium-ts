@@ -1,3 +1,4 @@
+// @ts-nocheck
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { type App } from 'vue'

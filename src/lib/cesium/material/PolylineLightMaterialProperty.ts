@@ -1,69 +1,76 @@
+// @ts-nocheck
 import * as Cesium from 'cesium'
-let num = 0
-function installPolylineLightMaterialProperty(Cesium: any) {
-  class PolylineLightMaterialProperty {
-    private _definitionChanged: Cesium.Event = new Cesium.Event()
-    private _colorSubscription: any
-    private _color: Cesium.Color | undefined
-    private _time: number | undefined
-    private _image: string
-    duration: number
 
-    constructor(options: { color?: Cesium.Color; duration?: number; image?: string }) {
-      this._color = undefined
-      this._colorSubscription = undefined
-      this._image = options.image || Cesium.Material.PolylineLightImage
-      this._time = undefined
+class PolylineLightMaterialProperty {
+  private _definitionChanged: Cesium.Event = new Cesium.Event()
+  private _color: Cesium.Color | undefined
+  private _time: number | undefined
+  private _image: string
+  duration: number
+  type = 'PolylineLightMaterialType'
 
-      this.color = options.color || Cesium.Color.BLUE
-      this.duration = options.duration || 1000
-    }
+  constructor(options: { color?; duration?: number; image?: string }) {
+    this._color = undefined
+    this._colorSubscription = undefined
+    this._image = options.image || '/assets/images/texture/meteor_01.png'
+    this._time = undefined
 
-    get isVariant(): boolean {
-      return false
-    }
+    this.color = options.color
+    this.duration = options.duration || 1000
+    this.init()
+  }
 
-    get definitionChanged(): Cesium.Event {
-      return this._definitionChanged
-    }
+  get isVariant(): boolean {
+    return false
+  }
 
-    color(): Cesium.Color {
-      return this._color || Cesium.Color.WHITE
-    }
+  get definitionChanged(): Cesium.Event {
+    return this._definitionChanged
+  }
 
-    getType(): string {
-      return Cesium.Material.PolylineLightMaterialType
-    }
+  get color() {
+    return this._color
+  }
 
-    getValue(time: Cesium.JulianDate, result: any): any {
-      if (!result) {
-        result = {}
-      }
-      result.color = this.color
-      result.image = this._image
+  set color(value) {
+    const oldValue = this._color
 
-      if (this._time === undefined) {
-        this._time = time.secondsOfDay
-      }
-      result.time = ((time.secondsOfDay - this._time) * 1000) / this.duration
-      return result
-    }
-
-    equals(other: any): boolean {
-      return (
-        this === other ||
-        (other instanceof PolylineLightMaterialProperty &&
-          Cesium.Property.equals(this._color, other._color))
-      )
+    if (oldValue !== value) {
+      this._color = new Cesium.ConstantProperty(value as any)
+      this._definitionChanged.raiseEvent(this, 'color', value, oldValue)
     }
   }
 
-  function registerMaterialCache() {
-    Cesium.Scene.PolylineLightMaterialProperty = PolylineLightMaterialProperty
-    Cesium.Material.PolylineLightMaterialProperty = 'PolylineLightMaterialProperty'
-    Cesium.Material.PolylineLightMaterialType = 'PolylineLightMaterialType'
-    Cesium.Material.PolylineLightImage = '/assets/images/texture/meteor_01.png'
-    Cesium.Material.PolylineLightMaterialSource = `
+  getType(): string {
+    console.log(this.type)
+    return this.type
+  }
+
+  getValue(time: Cesium.JulianDate, result) {
+    if (!result) {
+      result = {}
+    }
+    result.color = this._color
+    result.image = this._image
+    if (this._time === undefined) {
+      this._time = time.secondsOfDay
+    }
+    console.log(this._time, time.secondsOfDay)
+    result.time = ((time.secondsOfDay - this._time) * 1000) / this.duration
+    return result
+  }
+
+  equals(other: any): boolean {
+    return (
+      this === other ||
+      (other instanceof PolylineLightMaterialProperty &&
+        Cesium.Property['equals'](this._color, other._color))
+    )
+  }
+  init() {
+    const { type } = this
+    const image = '/assets/images/texture/meteor_01.png'
+    const shader = `
        czm_material czm_getMaterial(czm_materialInput materialInput)\n\
         {\n\
             czm_material material = czm_getDefaultMaterial(materialInput);\n\
@@ -81,21 +88,21 @@ function installPolylineLightMaterialProperty(Cesium: any) {
             return material;\n\
         }\n\
       `
-    Cesium.Material._materialCache.addMaterial(Cesium.Material.PolylineLightMaterialType, {
+    Cesium.Material['_materialCache'].addMaterial(type, {
       fabric: {
-        type: Cesium.Material.PolylineLightMaterialType,
+        type: type,
         uniforms: {
-          color: new Cesium.Color(1, 0, 0, 1.0),
-          image: Cesium.Material.PolylineLightImage,
-          time: 0
+          color: new Cesium.Color(1.0, 0.0, 0.0, 1.0),
+          image: image,
+          time: 1
         },
-        source: Cesium.Material.PolylineLightMaterialSource
+        source: shader
       },
       translucent: function () {
         return true
       }
     })
   }
-  registerMaterialCache()
 }
-export { installPolylineLightMaterialProperty }
+
+export { PolylineLightMaterialProperty }

@@ -1,23 +1,22 @@
 {
-  // // "files": [],
-  // "references": [
-  //   {
-  //     "path": "./tsconfig.node.json"
-  //   },
-  //   {
-  //     "path": "./tsconfig.app.json"
-  //   }
-  // ]
   "include": ["env.d.ts", "src/**/*.d.ts", "src/**/*", "src/**/*.vue"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "module": "esnext",
-    "moduleResolution": "node",
-    "strict": false,
+    "moduleResolution": "node", // 模块加载模式使用node
+    // 模块加载解决方案
+    "resolveJsonModule": true, // json导入
+    "allowSyntheticDefaultImports": true, // 允许将import * as xxxx from 'xxx' 写成 import xxxx from 'xxx'
+    "skipLibCheck": true,
+    "noImplicitAny": false, // 允许使用any隐式声明
+
+    // 语法解析
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "strict": true,
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "types": ["node", "cesium"]
+    }
   }
 }

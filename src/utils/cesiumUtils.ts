@@ -1,4 +1,8 @@
-export const getDefaultConfig = () => {
+import { Viewer } from 'cesium'
+
+export const getDefaultConfig = (
+  config: Viewer.ConstructorOptions = {}
+): Viewer.ConstructorOptions => {
   return {
     baseLayerPicker: false, // 地图类型选择器
     fullscreenButton: false, // 全屏功能
@@ -14,6 +18,7 @@ export const getDefaultConfig = () => {
     skyBox: false, // 天空盒子，月亮  太阳
     animation: false,
     // // vrButton: false,
-    creditContainer: document.createElement('div') // 隐藏logo
+    creditContainer: document.createElement('div'), // 隐藏logo
+    ...config
   }
 }
