@@ -11,7 +11,7 @@ export const getDefaultConfig = (
     navigationHelpButton: false, // 帮助按钮
     geocoder: false, // 地图搜索编码器
     homeButton: false, // home
-    sceneModePicker: false, // 2D模式/2.5D模式/3D模式
+    sceneModePicker: true, // 2D模式/2.5D模式/3D模式
     selectionIndicator: false, // 选中辅助工具
     navigationInstructionsInitiallyVisible: false,
     // clockViewModel: false,
