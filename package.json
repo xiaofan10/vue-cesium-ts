@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@icon-park/svg": "^1.4.2",
+    "@tweenjs/tween.js": "^21.0.0",
     "ant-design-vue": "^4.0.0",
     "axios": "^1.4.0",
     "cesium": "^1.108.0",

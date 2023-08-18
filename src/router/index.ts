@@ -33,15 +33,15 @@ export const routes = [
           title: 'Rain'
         },
         component: () => import('@/views/SpecialEffects/Rain.vue')
+      },
+      {
+        path: 'Cube',
+        name: 'Cube',
+        meta: {
+          title: 'Cube'
+        },
+        component: () => import('@/views/SpecialEffects/Cube.vue')
       }
-      //     {
-      //       path: 'Cube',
-      //       name: 'Cube',
-      //       meta: {
-      //         title: 'Cube'
-      //       },
-      //       component: () => import('@/views/SpecialEffects/Cube.vue')
-      //     }
     ]
   },
   {
@@ -75,6 +75,14 @@ export const routes = [
           title: 'Camera'
         },
         component: () => import('@/views/CesiumEffects/Camera.vue')
+      },
+      {
+        path: 'Entity',
+        name: 'Entity',
+        meta: {
+          title: 'Entity'
+        },
+        component: () => import('@/views/CesiumEffects/Entity.vue')
       }
     ]
   }
