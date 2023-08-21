@@ -54,43 +54,67 @@ const roll = ref(0)
 const position: [number, number, number] = [116.2529, 39.542, 100000]
 
 const addBall = () => {
+  // 创建一个时间间隔集合
+  let timeIntervals: Cesium.TimeIntervalCollection = new Cesium.TimeIntervalCollection()
+  const clock = viewer.clock
+  const curTime = new Date()
+  const startTimestrap = curTime.getTime()
+  const endTimestrap = startTimestrap + 200000
+  const startTime = Cesium.JulianDate.fromDate(new Date(startTimestrap))
+  const endTime = Cesium.JulianDate.fromDate(new Date(endTimestrap))
+  const startTimeOne = Cesium.JulianDate.fromDate(new Date(endTimestrap))
+  const endTimeOne = Cesium.JulianDate.fromDate(new Date(endTimestrap + 2000))
+  clock.currentTime = startTime
+  // 添加不同时间间隔的材质属性
+  timeIntervals.addInterval({
+    start: startTime,
+    stop: endTime,
+    data: new Cesium.ColorMaterialProperty(Cesium.Color.RED)
+  })
+
+  // timeIntervals.addInterval({
+  //   start: startTimeOne,
+  //   stop: endTimeOne,
+  //   data: new Cesium.ColorMaterialProperty(Cesium.Color.BLUE)
+  // })
+
   const entity = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(...position),
     ellipsoid: {
-      radii: new Cesium.Cartesian3(1000, 1000, 1000)
+      radii: new Cesium.Cartesian3(1000, 1000, 1000), //球体外部半径
+      innerRadii: new Cesium.Cartesian3(500, 500, 500), // 内部球半径
+      fill: true, // 是否用材料填充
+      // material: new Cesium.StripeMaterialProperty({
+      //   orientation: Cesium.StripeOrientation.VERTICAL,
+      //   evenColor: Cesium.Color.GREEN,
+      //   oddColor: Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5),
+      //   repeat: 100
+      // }),
+
+      // material: new Cesium.CheckerboardMaterialProperty({
+      //   evenColor: Cesium.Color.GREEN,
+      //   oddColor: Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5),
+      //   repeat: new Cesium.Cartesian2(10.0, 10.0)
+      // }),
+
+      // material: new Cesium.ColorMaterialProperty(Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5)),
+
+      material: new Cesium.CompositeMaterialProperty({
+        intervals: timeIntervals
+      }),
+
+      heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, // 模型添加时的参照物
+      outline: false, //
+      outlineColor: Cesium.Color.WHITE
+      // minimumCone: 0,
+      // maximumCone: 3
+      // shadows: Cesium.ShadowMode.ENABLED
+      // subdivisions: 80 //
+      // stackPartitions: 10, //  经度分割线个数 会影响显示效果
+      // slicePartitions: 10, // 维度分割线个数  会影响显示效果
     }
   })
   viewer.zoomTo(entity)
-  // 定义目标位置 B
-  var targetPosition = Cesium.Cartesian3.fromDegrees(-75.0, 40.0, 0)
-
-  // 使用 Tween 动画库实现球体从 A 移动到 B 的效果
-  var startTime = new Date().getTime()
-  var duration = 3000 // 移动时间为 3 秒
-
-  var tween = new TWEEN.Tween({})
-    .to({}, duration)
-    .onUpdate(function (time) {
-      var elapsed = time - startTime
-      var t = Cesium.Math.clamp(elapsed / duration, 0, 1)
-      var newPosition = Cesium.Cartesian3.lerp(
-        entity.position.getValue(startTime, new Cesium.Cartesian3()),
-        targetPosition,
-        t,
-        new Cesium.Cartesian3()
-      )
-      entity.position.setValue(newPosition)
-    })
-    .start()
-
-  // 帧更新函数，用于更新 Tween 动画和场景渲染
-  function animate() {
-    requestAnimationFrame(animate)
-    TWEEN.update()
-    viewer.render()
-  }
-
-  animate()
 }
 
 const addEntityEvent = () => {
