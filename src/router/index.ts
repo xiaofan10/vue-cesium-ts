@@ -103,10 +103,10 @@ export const routes = [
         component: () => import('@/views/CesiumEffects/Camera.vue')
       },
       {
-        path: 'Map',
-        name: 'Map',
+        path: 'CesiumMap',
+        name: 'CesiumMap',
         meta: {
-          title: 'Map'
+          title: 'CesiumMap'
         },
         component: () => import('@/views/CesiumEffects/Map.vue')
       },
