@@ -78,14 +78,7 @@ export const routes = [
     },
     redirect: '/CesiumEffects/Material',
     children: [
-      {
-        path: 'Material',
-        name: 'Material',
-        meta: {
-          title: 'Material'
-        },
-        component: () => import('@/views/CesiumEffects/Material.vue')
-      },
+      
       {
         path: 'Fly',
         name: 'Fly',
@@ -117,7 +110,23 @@ export const routes = [
           title: 'Entity'
         },
         component: () => import('@/views/CesiumEffects/Entity.vue')
-      }
+      },
+      {
+        path: 'Material',
+        name: 'Material',
+        meta: {
+          title: 'Material'
+        },
+        component: () => import('@/views/CesiumEffects/Material.vue')
+      },
+      {
+        path: 'Scene',
+        name: 'Scene',
+        meta: {
+          title: 'Scene'
+        },
+        component: () => import('@/views/CesiumEffects/Scene.vue')
+      },
     ]
   }
 ]
