@@ -21,7 +21,9 @@
             <template v-if="item.children">
               <ul>
                 <li class="menu-item" v-for="cItem in item.children" :key="cItem.path">
-                  <router-link :to="cItem.path">{{ cItem.meta.title }}</router-link>
+                  <router-link :to="`${item.path}/${cItem.path}`">{{
+                    cItem.meta.title
+                  }}</router-link>
                 </li>
               </ul>
             </template>
@@ -43,11 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, withDefaults } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 
-const props = defineProps({
-  data: []
-})
+const props = defineProps<{
+  data: any[]
+}>()
 
 const blob = ref<HTMLElement>()
 const blobPath = ref<HTMLElement>()

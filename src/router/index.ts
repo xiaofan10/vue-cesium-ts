@@ -45,6 +45,32 @@ export const routes = [
     ]
   },
   {
+    path: '/EchartsEffects',
+    name: 'EchartsEffects',
+    meta: {
+      title: 'EchartsEffects'
+    },
+    redirect: '/EchartsEffects/Map',
+    children: [
+      {
+        path: 'Map',
+        name: 'Map',
+        meta: {
+          title: 'Map'
+        },
+        component: () => import('@/views/EchartsEffects/Map.vue')
+      },
+      {
+        path: 'BMap',
+        name: 'BMap',
+        meta: {
+          title: 'BMap'
+        },
+        component: () => import('@/views/EchartsEffects/BMap.vue')
+      }
+    ]
+  },
+  {
     path: '/CesiumEffects',
     name: 'CesiumEffects',
     meta: {
@@ -75,6 +101,14 @@ export const routes = [
           title: 'Camera'
         },
         component: () => import('@/views/CesiumEffects/Camera.vue')
+      },
+      {
+        path: 'Map',
+        name: 'Map',
+        meta: {
+          title: 'Map'
+        },
+        component: () => import('@/views/CesiumEffects/Map.vue')
       },
       {
         path: 'Entity',

@@ -143,25 +143,6 @@ const addEvent = () => {
   })
 }
 
-// const registerImageryLayer = () => {
-//   // // 将 OSM 图层添加到 Viewer
-//   // https://maps.heigit.org/osmlanduse/service
-//   var wmsOptions = {
-//     url: '/api/osmlanduse/service', // 示例 WMS 服务 URL
-//     layers: 'osmlanduse:osm_lulc', // 示例图层名称
-//     parameters: {
-//       format: 'image/png',
-//       transparent: true,
-//       // srs: 'EPSG:3857',
-//       crs: 'EPSG:3857',
-//       // VERSION: '1.3.0'
-//       version: '1.3.0'
-//     }
-//   }
-//   var wmsImageryProvider = new Cesium.WebMapServiceImageryProvider(wmsOptions)
-//   viewer.imageryLayers.addImageryProvider(wmsImageryProvider)
-// }
-
 function initCesium() {
   viewer = new Cesium.Viewer(cesiumContainer.value, {
     ...getDefaultConfig()
@@ -170,8 +151,6 @@ function initCesium() {
   math3d = new Math3d(viewer, Cesium)
 
   viewer.scene.globe.depthTestAgainstTerrain = true
-
-  // createAxis()
 }
 
 onMounted(() => {

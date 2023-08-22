@@ -54,30 +54,6 @@ const roll = ref(0)
 const position: [number, number, number] = [116.2529, 39.542, 100000]
 
 const addBall = () => {
-  // 创建一个时间间隔集合
-  let timeIntervals: Cesium.TimeIntervalCollection = new Cesium.TimeIntervalCollection()
-  const clock = viewer.clock
-  const curTime = new Date()
-  const startTimestrap = curTime.getTime()
-  const endTimestrap = startTimestrap + 200000
-  const startTime = Cesium.JulianDate.fromDate(new Date(startTimestrap))
-  const endTime = Cesium.JulianDate.fromDate(new Date(endTimestrap))
-  const startTimeOne = Cesium.JulianDate.fromDate(new Date(endTimestrap))
-  const endTimeOne = Cesium.JulianDate.fromDate(new Date(endTimestrap + 2000))
-  clock.currentTime = startTime
-  // 添加不同时间间隔的材质属性
-  timeIntervals.addInterval({
-    start: startTime,
-    stop: endTime,
-    data: new Cesium.ColorMaterialProperty(Cesium.Color.RED)
-  })
-
-  // timeIntervals.addInterval({
-  //   start: startTimeOne,
-  //   stop: endTimeOne,
-  //   data: new Cesium.ColorMaterialProperty(Cesium.Color.BLUE)
-  // })
-
   const entity = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(...position),
     ellipsoid: {
@@ -90,19 +66,12 @@ const addBall = () => {
       //   oddColor: Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5),
       //   repeat: 100
       // }),
-
-      // material: new Cesium.CheckerboardMaterialProperty({
-      //   evenColor: Cesium.Color.GREEN,
-      //   oddColor: Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5),
-      //   repeat: new Cesium.Cartesian2(10.0, 10.0)
-      // }),
-
-      // material: new Cesium.ColorMaterialProperty(Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5)),
-
-      material: new Cesium.CompositeMaterialProperty({
-        intervals: timeIntervals
+      material: new Cesium.CheckerboardMaterialProperty({
+        evenColor: Cesium.Color.GREEN,
+        oddColor: Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5),
+        repeat: new Cesium.Cartesian2(10.0, 10.0)
       }),
-
+      // material: new Cesium.ColorMaterialProperty(Cesium.Color.fromAlpha(Cesium.Color.RED, 0.5)),
       heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, // 模型添加时的参照物
       outline: false, //
       outlineColor: Cesium.Color.WHITE
