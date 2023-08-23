@@ -10,6 +10,14 @@
       <mars-input v-model:value="height" @change="handleChange" type="number" />
     </a-space>
     <a-space>
+      倍数
+      <mars-input v-model:value="dpr" @change="handleChange" type="number" />
+    </a-space>
+    <a-space>
+      字号
+      <mars-input v-model:value="fontSize" @change="handleChange" type="number" />
+    </a-space>
+    <a-space>
       文件名称
       <mars-input v-model:value="filename" />
     </a-space>
@@ -20,21 +28,97 @@
 <script setup lang="ts">
 import * as echarts from 'echarts'
 import { computed, onMounted, ref } from 'vue'
-import northEastL3 from '@/assets/geo/northEastL3.json'
+import northEastL4 from '@/assets/geo/northEastL4.json'
 import northEastL2 from '@/assets/geo/northEastL2.json'
+import geoCoord from '@/assets/geo/dd.json'
+
+const dpr = ref<number>(1)
 const width = ref<number>(window.innerWidth)
 const height = ref<number>(window.innerHeight)
 const filename = ref<string>('地图')
+const fontSize = ref<number>(12)
 let chart: ECharts
+const coords = []
+
+const getOptions = () => ({
+  geo: {
+    name: 'northEastL4',
+    type: 'map',
+    roam: false,
+    map: 'northEastL4',
+    label: {
+      show: true,
+      fontSize: fontSize.value
+    }
+  },
+  series: [
+    {
+      name: 'pm2.5',
+      type: 'scatter',
+      coordinateSystem: 'geo',
+      data: coords,
+      encode: {
+        value: 2
+      },
+
+      symbolSize: 20,
+      label: {
+        show: true,
+        formatter: '{@[3]}'
+      },
+
+      itemStyle: {
+        color: '#29b8e1'
+      },
+      emphasis: {
+        label: {
+          show: true
+        }
+      }
+    },
+    {
+      name: '底图',
+      type: 'map',
+      map: 'northEastL2',
+      roam: false,
+      data: [],
+      itemStyle: {
+        areaColor: 'transparent',
+        borderColor: '#393939',
+        borderWidth: 2
+      }
+    }
+  ]
+})
+
 const sheetStyleCom = computed(() => {
+  const x = dpr.value || 1
+  const w = width.value * x
+  const h = height.value * x
+  const l = w > window.innerWidth ? (w - window.innerWidth) / 2 : 0
+  const t = h > window.innerHeight ? (h - window.innerHeight) / 2 : 0
   return {
-    width: width.value + 'px',
-    height: height.value + 'px'
+    left: -l + 'px',
+    top: -t + 'px',
+    width: w + 'px',
+    height: h + 'px'
   }
 })
 
+Object.values(geoCoord).forEach((child) => {
+  child.forEach((item) => {
+    coords.push({
+      name: item['单位名称'],
+      value: [item['经度'], item['纬度'], 100, coords.length]
+    })
+  })
+})
+console.log(coords)
+
 const handleChange = () => {
-  chart.resize({ width: width.value, height: height.value })
+  const x = dpr.value || 1
+  chart.setOption(getOptions())
+  chart.resize({ width: width.value * x, height: height.value * x })
 }
 
 const sheet = ref<HTMLDivElement>()
@@ -56,51 +140,33 @@ const downloadImage = () => {
   document.body.removeChild(a)
 }
 
-onMounted(() => {
+const initChart = () => {
   chart = echarts.init(sheet.value)
-  echarts.registerMap('northEastL3', northEastL3 as any)
+  echarts.registerMap('northEastL4', northEastL4 as any)
   echarts.registerMap('northEastL2', northEastL2 as any)
-  chart.setOption({
-    series: [
-      {
-        name: 'northEastL3',
-        type: 'map',
-        roam: true,
-        map: 'northEastL3',
-        label: {
-          show: true
-        },
-        zoom: 1.2,
-        data: northEastL3.features.map(function (feature) {
-          console.log(feature.properties)
-          return {
-            name: feature.properties.name,
-            value: 100, // value 可以是任意数字，影响颜色的渐变
-            itemStyle: {
-              areaColor: areaColor[feature.properties.parent.adcode] || '#00f' // 从 GeoJSON 属性获取颜色值
-            }
-          }
-        })
-      }
-    ]
-  })
+  chart.setOption(getOptions())
+}
+
+onMounted(() => {
+  initChart()
 })
+// 5760 3240
 </script>
 
 <style lang="less" scoped>
 .sheet {
   position: fixed;
-  // top: 0;
-  // left: 0;
-  // bottom: 0;
-  // right: 0;
-  z-index: 999999;
+  top: 0%;
+  left: 0%;
+  z-index: 9999999;
   width: 200%;
   height: 200%;
+  background: #fff;
 }
 .tool {
+  display: true;
   position: absolute;
-  z-index: 10000000;
+  z-index: 100000000;
   right: 0;
   top: 0;
   background: rgba(23, 49, 71, 0.8);
