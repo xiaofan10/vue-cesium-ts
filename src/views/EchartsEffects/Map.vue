@@ -44,11 +44,29 @@ const getOptions = () => ({
   geo: {
     name: 'northEastL4',
     type: 'map',
-    roam: false,
+    roam: true,
     map: 'northEastL4',
     label: {
       show: true,
-      fontSize: fontSize.value
+      fontSize: fontSize.value,
+      formatter({ name }) {
+        const includes: string[] = [
+          '兴山区',
+          '向阳区',
+          '工农区',
+          '南山区',
+          '麻山区',
+          '滴道区',
+          '麻山区',
+          '恒山区',
+          '梨树区',
+          '城子河区',
+          '回民区',
+          '玉泉区',
+          '赛罕区'
+        ]
+        return !includes.includes(name) ? name : ''
+      }
     }
   },
   series: [
@@ -75,19 +93,19 @@ const getOptions = () => ({
           show: true
         }
       }
-    },
-    {
-      name: '底图',
-      type: 'map',
-      map: 'northEastL2',
-      roam: false,
-      data: [],
-      itemStyle: {
-        areaColor: 'transparent',
-        borderColor: '#393939',
-        borderWidth: 2
-      }
     }
+    // {
+    //   name: '底图',
+    //   type: 'map',
+    //   map: 'northEastL2',
+    //   roam: false,
+    //   data: [],
+    //   itemStyle: {
+    //     areaColor: 'transparent',
+    //     borderColor: '#393939',
+    //     borderWidth: 2
+    //   }
+    // }
   ]
 })
 
