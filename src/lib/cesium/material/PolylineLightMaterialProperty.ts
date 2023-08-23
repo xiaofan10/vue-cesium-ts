@@ -50,12 +50,12 @@ class PolylineLightMaterialProperty {
     if (!result) {
       result = {}
     }
-    result.color = this._color
+    result.color = Cesium.Property['getValueOrDefault'](this._color, time, result.color)
     result.image = this._image
     if (this._time === undefined) {
       this._time = time.secondsOfDay
     }
-    console.log(this._time, time.secondsOfDay)
+    console.log(result.color)
     result.time = ((time.secondsOfDay - this._time) * 1000) / this.duration
     return result
   }
@@ -71,6 +71,7 @@ class PolylineLightMaterialProperty {
     const { type } = this
     const image = '/assets/images/texture/meteor_01.png'
     const shader = `
+       uniform vec4 color;
        czm_material czm_getMaterial(czm_materialInput materialInput)\n\
         {\n\
             czm_material material = czm_getDefaultMaterial(materialInput);\n\
@@ -92,7 +93,7 @@ class PolylineLightMaterialProperty {
       fabric: {
         type: type,
         uniforms: {
-          color: new Cesium.Color(1.0, 0.0, 0.0, 1.0),
+          color: Cesium.Color.BLACK,
           image: image,
           time: 1
         },

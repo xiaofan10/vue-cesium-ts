@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="cesium-container" ref="cesiumContainer"></div>
-    <mars-dialog :visible="true" left="100" top="10" bottom="10" width="300" title="Entity">
+    <mars-dialog :visible="true" right="10" top="10" bottom="10" width="300" title="Entity">
       <p>
         <a-space>
           增加
