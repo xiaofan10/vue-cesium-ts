@@ -1,14 +1,10 @@
 <template>
-    <div class="container">
+  <div class="container">
     <div class="cesium-container" ref="cesiumContainer"></div>
-    <mars-dialog :visible="true" right="0" top="10" bottom="10" width="300" title="Scene">
+    <mars-dialog :visible="true" right="0" top="100" bottom="10" width="300" title="Scene">
       <p>
-        <a-space>
-          heading-左右摇头
-        </a-space>
+        <a-space> heading-左右摇头 </a-space>
       </p>
-    
-     
     </mars-dialog>
   </div>
 </template>
@@ -16,18 +12,22 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import * as Cesium from 'cesium'
-import {getDefaultConfig} from '@/utils/cesiumUtils'
-let viewer:Cesium.Viewer
+import { getDefaultConfig } from '@/utils/cesiumUtils'
+let viewer: Cesium.Viewer
 const cesiumContainer = ref<HTMLElement | null>(null)
 
-const initCesium =() => {
+const initCesium = () => {
   viewer = new Cesium.Viewer(cesiumContainer.value as HTMLElement, getDefaultConfig())
   viewer.scene.debugShowFramesPerSecond = true
+  viewer.scene.debugShowCommands = false
+  viewer.scene.debugShowFrustumPlanes = true
+  viewer.scene.debugShowDepthFrustum = 1
   viewer.scene.globe.enableLighting = true
+  viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW
 }
 
 onMounted(() => {
-    initCesium()
+  initCesium()
 })
 </script>
 

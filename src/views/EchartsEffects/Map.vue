@@ -63,7 +63,26 @@ const getOptions = () => ({
           '城子河区',
           '回民区',
           '玉泉区',
-          '赛罕区'
+          '赛罕区',
+          '皇姑区',
+          '大东区',
+          '沈河区',
+          '和平区',
+          '浑南区',
+          '西安区',
+          '龙山区',
+          '太子河区',
+          '文圣区',
+          '白塔区',
+          '弓长岭区',
+          '宏伟区',
+          '立山区',
+          '铁东区',
+          '铁西区',
+          '双台子区',
+          '兴隆台区',
+          '凌河区',
+          '古塔区'
         ]
         return !includes.includes(name) ? name : ''
       }
@@ -127,7 +146,7 @@ Object.values(geoCoord).forEach((child) => {
   child.forEach((item) => {
     coords.push({
       name: item['单位名称'],
-      value: [item['经度'], item['纬度'], 100, coords.length]
+      value: [item['经度'], item['纬度'], 100, item['序号']]
     })
   })
 })
