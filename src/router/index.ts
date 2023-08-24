@@ -78,7 +78,6 @@ export const routes = [
     },
     redirect: '/CesiumEffects/Material',
     children: [
-      
       {
         path: 'Fly',
         name: 'Fly',
@@ -120,13 +119,21 @@ export const routes = [
         component: () => import('@/views/CesiumEffects/Material.vue')
       },
       {
+        path: 'Particle',
+        name: 'Particle',
+        meta: {
+          title: 'Particle'
+        },
+        component: () => import('@/views/CesiumEffects/Particle.vue')
+      },
+      {
         path: 'Scene',
         name: 'Scene',
         meta: {
           title: 'Scene'
         },
         component: () => import('@/views/CesiumEffects/Scene.vue')
-      },
+      }
     ]
   }
 ]

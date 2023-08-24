@@ -23,7 +23,7 @@ const initCesium = () => {
   viewer.scene.debugShowFrustumPlanes = true
   viewer.scene.debugShowDepthFrustum = 1
   viewer.scene.globe.enableLighting = true
-  viewer.scene.mode = Cesium.SceneMode.COLUMBUS_VIEW
+  viewer.scene.mode = Cesium.SceneMode.SCENE3D
 }
 
 onMounted(() => {
