@@ -127,6 +127,14 @@ export const routes = [
         component: () => import('@/views/CesiumEffects/Particle.vue')
       },
       {
+        path: 'Plane',
+        name: 'Plane',
+        meta: {
+          title: 'Plane'
+        },
+        component: () => import('@/views/CesiumEffects/Plane.vue')
+      },
+      {
         path: 'Scene',
         name: 'Scene',
         meta: {

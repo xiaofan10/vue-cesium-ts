@@ -5,13 +5,23 @@
       <p>
         <a-space>
           heading-左右摇头
-          <mars-input v-model:value="heading" @change="onHeadingPitchRollChange" type="number" />
+          <mars-input
+            v-model:value="heading"
+            @change="onHeadingPitchRollChange"
+            type="number"
+            step="0.1"
+          />
         </a-space>
       </p>
       <p>
         <a-space>
           pitch-抬头点头
-          <mars-input v-model:value="pitch" @change="onHeadingPitchRollChange" type="number" />
+          <mars-input
+            v-model:value="pitch"
+            @change="onHeadingPitchRollChange"
+            type="number"
+            step="0.1"
+          />
         </a-space>
       </p>
       <p>
@@ -23,6 +33,12 @@
             type="number"
             step="0.1"
           />
+        </a-space>
+      </p>
+      <p>
+        <a-space>
+          添加正方体
+          <mars-button @click="addBoxEntity">添加正方体</mars-button>
         </a-space>
       </p>
     </mars-dialog>
@@ -75,31 +91,62 @@ const onHeadingPitchRollChange = (val: number) => {
   }
 }
 
-const initClock = () => {
-  viewer.clock.shouldAnimate = true // 是否应该动画
-  // 创建粒子系统
-  particleSystem = viewer.scene.primitives.add(
+const createParticleSystem = (options = {}) => {
+  const gravityVector = new Cesium.Cartesian3()
+
+  return viewer.scene.primitives.add(
     new Cesium.ParticleSystem({
       image: '/assets/images/particle/smoke.png', // 设置粒子图片路径
       imageSize: new Cesium.Cartesian2(1.0, 1.0),
-      startColor: Cesium.Color.RED, // 起始颜色
+      startColor: Cesium.Color.GREEN, // 起始颜色
       endColor: Cesium.Color.YELLOW, // 结束颜色
       startScale: 1.0, // 起始大小
       endScale: 10, // 结束大小
-      emissionRate: 50, // 每秒发射的粒子数量
+      emissionRate: 1000, // 每秒发射的粒子数量
       minimumParticleLife: 2.0, // 最小粒子寿命
       maximumParticleLife: 5.0, // 最大粒子寿命
       sizeInMeters: false, // 是否以米为单位计算粒子大小
-      minimumSpeed: 1.0, // 最小速度
-      maximumSpeed: 10.0, // 最大速度
+      minimumSpeed: 100.0, // 最小速度
+      maximumSpeed: 1000.0, // 最大速度
       emitter: new Cesium.CircleEmitter(Cesium.Math.toRadians(20.0)), // 设置锥形发射器
       // lifetime: 10000.0, // 整体粒子系统的寿命
       modelMatrix: computedModeMatrix({ lon: -75.0, lat: 40.0, height: 1000.0 }), // 设置模型矩阵
-      emitterModelMatrix: computedEmitterModeMatrix() // 设置发射器模型矩阵
+      emitterModelMatrix: computedEmitterModeMatrix(), // 设置发射器模型矩阵
+      updateCallback(p, dt) {
+        const gravity = -(9.8 * 9.8)
+        // Compute a local up vector for each particle in geocentric space.
+        const position = p.position
+
+        Cesium.Cartesian3.normalize(position, gravityVector)
+        Cesium.Cartesian3.multiplyByScalar(gravityVector, gravity * dt, gravityVector)
+
+        p.velocity = Cesium.Cartesian3.add(p.velocity, gravityVector, p.velocity)
+      },
+      ...options
     })
   )
-  // viewer.zoomTo(particleSystem)
+}
 
+const addBoxEntity = () => {
+  const boxEntity = viewer.entities.add({
+    name: 'Box',
+    position: Cesium.Cartesian3.fromDegrees(-114.0, 40.0, 300000.0),
+    box: {
+      dimensions: new Cesium.Cartesian3(400.0, 300.0, 500.0),
+      material: Cesium.Color.RED.withAlpha(0.5),
+      outline: true,
+      outlineColor: Cesium.Color.BLACK
+    }
+  })
+  const matrixBox = boxEntity.computeModelMatrix(viewer.clock.startTime, new Cesium.Matrix4())
+  createParticleSystem({ modelMatrix: matrixBox })
+  viewer.zoomTo(boxEntity)
+}
+
+const initParticleSystem = () => {
+  viewer.clock.shouldAnimate = true // 是否应该动画
+  // 创建粒子系统
+  particleSystem = createParticleSystem()
   // 设置粒子系统的位置
   var camera = viewer.scene.camera
 
@@ -117,7 +164,8 @@ const initClock = () => {
 const initCesium = () => {
   viewer = new Cesium.Viewer(cesiumContainer.value as HTMLElement, getDefaultConfig())
   viewer.scene.debugShowFramesPerSecond = true
-  initClock()
+  initParticleSystem()
+  // console.log(Cesium.Cartesian3.fromElements(1.0, 2.0, 3.0))
 }
 
 onMounted(() => {
