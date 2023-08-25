@@ -4,7 +4,7 @@ import Refresh from './Compo/Refresh/index.vue'
 const isLoading = ref(false)
 
 const onChange = (e) => {
-  console.log(e, 'refresh change')
+  // console.log(e, 'refresh change')
 }
 const onRefresh = () => {
   setTimeout(() => {
@@ -16,7 +16,33 @@ const onRefresh = () => {
 <template>
   <div class="container">
     <Refresh v-model="isLoading" @change="onChange" @refresh="onRefresh" success-text="刷新成功">
-      <div>下拉拖动刷新吧</div>
+      <div class="scroll">
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+        <div class="list-item">下拉拖动刷新吧</div>
+      </div>
     </Refresh>
   </div>
 </template>
@@ -28,9 +54,18 @@ const onRefresh = () => {
   left: 0;
   bottom: 0;
   right: 0;
+  overflow: auto;
   .cesium-container {
     width: 100%;
     height: 100%;
+  }
+  .scroll {
+    position: relative;
+    overflow: auto;
+  }
+  .list-item {
+    height: 200px;
+    line-height: 200px;
   }
 }
 </style>

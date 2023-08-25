@@ -97,6 +97,8 @@ const isTouchable = () =>
   state.status !== 'loading' && state.status !== 'success' && !props.disabled
 
 const ease = (distance: number) => {
+  // 当移动距离大于 pullDistance 且小于2*pullDistance 时,有缓动，位移会多出（多出距离的一半）
+  // 如果超出2*pullDistance,位移会为另一个缓动计算的距离
   const pullDistance = +(props.pullDistance || props.headHeight)
   if (distance > pullDistance) {
     if (distance < pullDistance * 2) {
@@ -105,7 +107,7 @@ const ease = (distance: number) => {
       distance = pullDistance * 1.5 + (distance - pullDistance * 2) / 4
     }
   }
-
+  // 四舍五入取整
   return Math.round(distance)
 }
 
@@ -143,21 +145,22 @@ const showSuccessTip = () => {
     setStatus(0)
   }, +props.successDuration)
 }
-const getScrollTop = (el: ScrollElement): number => {
-  const top = 'scrollTop' in el ? el.scrollTop : el.pageYOffset
 
-  // iOS scroll bounce cause minus scrollTop
-  return Math.max(top, 0)
-}
 const checkPosition = (event: TouchEvent) => {
-  reachTop = getScrollTop(scrollParent.value!) === 0
-  console.log(reachTop, 'reachTop')
+  const el = scrollParent.value
+  const top = 'scrollTop' in el ? el.scrollTop : el.pageYOffset
+  console.log(top,'top')
+  // iOS scroll bounce cause minus scrollTop
+  reachTop = Math.max(top, 0) === 0
+  // 如果页面元素在顶端，触发下拉刷新动作
   if (reachTop) {
     state.duration = 0
     touch.start(event)
   }
 }
+
 const stopPropagation = (event: Event) => event.stopPropagation()
+
 const preventDefault = (event: Event, isStopPropagation?: boolean) => {
   /* istanbul ignore else */
   if (typeof event.cancelable !== 'boolean' || event.cancelable) {
@@ -170,19 +173,23 @@ const preventDefault = (event: Event, isStopPropagation?: boolean) => {
 }
 
 const onTouchStart = (e: TouchEvent) => {
+  // 非loading与success状态检测位置
   if (isTouchable()) {
+    // scrollTop是否为0检查，如果为0，防止touchMove上拉触发下拉刷新bug
     checkPosition(e)
   }
 }
 const onTouchMove = (e: TouchEvent) => {
+  // 非loading与success状态检测位置
   if (isTouchable()) {
+    // 如果scrollTop不为0触发位置检测
     if (!reachTop) {
       checkPosition(e)
     }
 
     const { deltaY } = touch
     touch.move(e)
-
+    // move到顶部（即scrollTop为0，并且touch移动位置大于0，且是垂直移动）时，改变下拉刷新位置
     if (reachTop && deltaY.value >= 0 && touch.isVertical()) {
       preventDefault(e)
       setStatus(ease(deltaY.value))
@@ -190,15 +197,18 @@ const onTouchMove = (e: TouchEvent) => {
   }
 }
 const onTouchEnd = (e: TouchEvent) => {
+  // 当松开手时，已经在顶部，手指移动值大于0且不是loading与success状态
   if (reachTop && touch.deltaY.value && isTouchable()) {
     state.duration = +props.animationDuration
 
     if (state.status === 'loosing') {
       setStatus(+props.headHeight, true)
+      // 变更v-model值的变量为true
       emit('update:modelValue', true)
-
+      // 触发自定义refresh事件
       nextTick(() => emit('refresh'))
     } else {
+      // 否则下拉刷新位置归0
       setStatus(0)
     }
   }
@@ -218,8 +228,6 @@ watch(
   }
 )
 
-
-
 let cleaned = false
 let attached: boolean
 
@@ -231,14 +239,14 @@ const add = (target, type, listener) => {
 
   if (element && !attached) {
     element.addEventListener(type, listener, {
-      capture:false,
-      passive:false
+      capture: false,
+      passive: false
     })
     attached = true
   }
 }
 
-const remove = (target,type,listener) => {
+const remove = (target, type, listener) => {
   if (cleaned) {
     return
   }
@@ -250,8 +258,8 @@ const remove = (target,type,listener) => {
   }
 }
 
-onUnmounted(() => remove(track,'touchmove', onTouchMove))
-onDeactivated(() => remove(track,'touchmove', onTouchMove))
+onUnmounted(() => remove(track, 'touchmove', onTouchMove))
+onDeactivated(() => remove(track, 'touchmove', onTouchMove))
 onMounted(() => {
   add(track, 'touchmove', onTouchMove)
 })
@@ -267,8 +275,6 @@ onMounted(() => {
 
 .van-pull-refresh {
   overflow: hidden;
-  height: calc(100vh - 50px);
-
   &__track {
     position: relative;
     height: 100%;
