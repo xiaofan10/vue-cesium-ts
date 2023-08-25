@@ -11,139 +11,23 @@ export const routes = [
     component: Index
   },
   {
-    path: '/SpecialEffects',
-    name: 'SpecialEffects',
+    path: '/Compo',
+    name: 'Compo',
     meta: {
-      title: 'SpecialEffects'
+      title: 'Compo'
     },
-    redirect: '/SpecialEffects/Rain',
+    redirect: '/Compo/Refresh',
     children: [
       {
-        path: 'MenuSide',
-        name: 'MenuSide',
+        path: 'Refresh',
+        name: 'Refresh',
         meta: {
-          title: 'MenuSide'
+          title: 'Refresh'
         },
-        component: () => import('@/views/SpecialEffects/MenuSide.vue')
-      },
-      {
-        path: 'Rain',
-        name: 'Rain',
-        meta: {
-          title: 'Rain'
-        },
-        component: () => import('@/views/SpecialEffects/Rain.vue')
-      },
-      {
-        path: 'Cube',
-        name: 'Cube',
-        meta: {
-          title: 'Cube'
-        },
-        component: () => import('@/views/SpecialEffects/Cube.vue')
+        component: () => import('@/views/Compo/Refresh/index.vue')
       }
     ]
   },
-  {
-    path: '/EchartsEffects',
-    name: 'EchartsEffects',
-    meta: {
-      title: 'EchartsEffects'
-    },
-    redirect: '/EchartsEffects/Map',
-    children: [
-      {
-        path: 'Map',
-        name: 'Map',
-        meta: {
-          title: 'Map'
-        },
-        component: () => import('@/views/EchartsEffects/Map.vue')
-      },
-      {
-        path: 'BMap',
-        name: 'BMap',
-        meta: {
-          title: 'BMap'
-        },
-        component: () => import('@/views/EchartsEffects/BMap.vue')
-      }
-    ]
-  },
-  {
-    path: '/CesiumEffects',
-    name: 'CesiumEffects',
-    meta: {
-      title: 'CesiumEffects'
-    },
-    redirect: '/CesiumEffects/Material',
-    children: [
-      {
-        path: 'Fly',
-        name: 'Fly',
-        meta: {
-          title: 'Fly'
-        },
-        component: () => import('@/views/CesiumEffects/Fly.vue')
-      },
-      {
-        path: 'Camera',
-        name: 'Camera',
-        meta: {
-          title: 'Camera'
-        },
-        component: () => import('@/views/CesiumEffects/Camera.vue')
-      },
-      {
-        path: 'CesiumMap',
-        name: 'CesiumMap',
-        meta: {
-          title: 'CesiumMap'
-        },
-        component: () => import('@/views/CesiumEffects/Map.vue')
-      },
-      {
-        path: 'Entity',
-        name: 'Entity',
-        meta: {
-          title: 'Entity'
-        },
-        component: () => import('@/views/CesiumEffects/Entity.vue')
-      },
-      {
-        path: 'Material',
-        name: 'Material',
-        meta: {
-          title: 'Material'
-        },
-        component: () => import('@/views/CesiumEffects/Material.vue')
-      },
-      {
-        path: 'Particle',
-        name: 'Particle',
-        meta: {
-          title: 'Particle'
-        },
-        component: () => import('@/views/CesiumEffects/Particle.vue')
-      },
-      {
-        path: 'Plane',
-        name: 'Plane',
-        meta: {
-          title: 'Plane'
-        },
-        component: () => import('@/views/CesiumEffects/Plane.vue')
-      },
-      {
-        path: 'Scene',
-        name: 'Scene',
-        meta: {
-          title: 'Scene'
-        },
-        component: () => import('@/views/CesiumEffects/Scene.vue')
-      }
-    ]
-  }
 ]
 
 const router = createRouter({

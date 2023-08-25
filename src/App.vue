@@ -6,7 +6,7 @@ import { routes } from './router'
 
 <template>
   <div>
-    <Menu :data="routes"></Menu>
+    <!-- <Menu :data="routes"></Menu> -->
   </div>
   <div class="main">
     <RouterView />
