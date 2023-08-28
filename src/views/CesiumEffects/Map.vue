@@ -38,15 +38,22 @@ const layers = {
   }
 }
 
-const initCesium = () => {
+const initCesium = async () => {
   viewer = new Cesium.Viewer(cesiumContainer.value as HTMLElement, {
     ...getDefaultConfig(),
-    // baseLayer: false
+    baseLayerPicker: false,
+    geocoder : false
   })
+  const customLayer = await Cesium.TileMapServiceImageryProvider.fromUrl(
+    Cesium.buildModuleUrl('http://127.0.0.1:8888/assets/tiles/tiles'),{
+      // minimumLevel:3,
+      // maximumLevel:12
+    }
+  )
+  // //  new Cesium.UrlTemplateImageryProvider({
+  // //   url: 'http://127.0.0.1:8888/assets/tiles/tiles/{z}/{x}/{y}.png'
+  // // })
 
-  const customLayer = new Cesium.UrlTemplateImageryProvider({
-    url: 'http://127.0.0.1:8888/assets/tiles/tiles/{z}/{x}/{y}.png'
-  })
   viewer.imageryLayers.addImageryProvider(customLayer)
 }
 
