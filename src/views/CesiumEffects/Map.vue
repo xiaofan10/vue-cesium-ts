@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="cesium-container" ref="cesiumContainer"></div>
-    <mars-dialog :visible="true" left="100" top="10" bottom="10" width="300" title="Camera">
+    <mars-dialog :visible="true" right="0" top="10" bottom="10" width="300" title="Camera">
       <p>
         <a-space>
           <mars-button @click="layers.loadOSM">加载第三方图层</mars-button>
@@ -39,7 +39,15 @@ const layers = {
 }
 
 const initCesium = () => {
-  viewer = new Cesium.Viewer(cesiumContainer.value as HTMLElement, getDefaultConfig())
+  viewer = new Cesium.Viewer(cesiumContainer.value as HTMLElement, {
+    ...getDefaultConfig(),
+    // baseLayer: false
+  })
+
+  const customLayer = new Cesium.UrlTemplateImageryProvider({
+    url: 'http://127.0.0.1:8888/assets/tiles/tiles/{z}/{x}/{y}.png'
+  })
+  viewer.imageryLayers.addImageryProvider(customLayer)
 }
 
 onMounted(() => {
