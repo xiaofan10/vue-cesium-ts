@@ -57,55 +57,50 @@ const layers = {
 const initCesium = async () => {
   viewer = new Cesium.Viewer(cesiumContainer.value as HTMLElement, {
     ...getDefaultConfig(),
-    baseLayer: false
+    baseLayerPicker: false
+    // baseLayer: false
   })
 
-  const tilingScheme = new Cesium.WebMercatorTilingScheme()
-  const projection = tilingScheme.projection
-  const nativeProject = projection.project
-  const nativeUnProject = projection.unproject
-  let projectMethods = 'wgs84togcj02'
-  let unprojectMethods = 'gcj02towgs84'
-  projection.project = function (cartographic, result) {
-    result = result || new Cesium.Cartesian3()
-    result = coordtransform[projectMethods](
-      Cesium.Math.toDegrees(cartographic.longitude),
-      Cesium.Math.toDegrees(cartographic.latitude)
-    )
-    console.log(cartographic, result)
-    return nativeProject.call(
-      this,
-      new Cesium.Cartographic(
-        Cesium.Math.toRadians(result?.[0]),
-        Cesium.Math.toRadians(result?.[1])
-      )
-    )
-  }
-  projection.unproject = function (cartesian2, result) {
-    result = result || new Cesium.Cartographic()
-    const cartographic = nativeUnProject.call(this, cartesian2)
-    result = coordtransform[unprojectMethods](
-      Cesium.Math.toDegrees(cartographic.longitude),
-      Cesium.Math.toDegrees(cartographic.latitude)
-    )
-    return new Cesium.Cartographic(
-      Cesium.Math.toRadians(result?.[0]),
-      Cesium.Math.toRadians(result?.[1])
-    )
-  }
+  // const tilingScheme = new Cesium.WebMercatorTilingScheme()
+  // const projection = tilingScheme.projection
+  // const nativeProject = projection.project
+  // const nativeUnProject = projection.unproject
+  // let projectMethods = 'wgs84togcj02'
+  // let unprojectMethods = 'gcj02towgs84'
+  // projection.project = function (cartographic, result) {
+  //   result = result || new Cesium.Cartesian3()
+  //   result = coordtransform[projectMethods](
+  //     Cesium.Math.toDegrees(cartographic.longitude),
+  //     Cesium.Math.toDegrees(cartographic.latitude)
+  //   )
+  //   console.log(cartographic, result)
+  //   return nativeProject.call(
+  //     this,
+  //     new Cesium.Cartographic(
+  //       Cesium.Math.toRadians(result?.[0]),
+  //       Cesium.Math.toRadians(result?.[1])
+  //     )
+  //   )
+  // }
+  // projection.unproject = function (cartesian2, result) {
+  //   result = result || new Cesium.Cartographic()
+  //   const cartographic = nativeUnProject.call(this, cartesian2)
+  //   result = coordtransform[unprojectMethods](
+  //     Cesium.Math.toDegrees(cartographic.longitude),
+  //     Cesium.Math.toDegrees(cartographic.latitude)
+  //   )
+  //   return new Cesium.Cartographic(
+  //     Cesium.Math.toRadians(result?.[0]),
+  //     Cesium.Math.toRadians(result?.[1])
+  //   )
+  // }
 
   var southwestInMeters = new Cesium.Cartesian2(-33554054, -33746824)
   var northeastInMeters = new Cesium.Cartesian2(33554054, 33746824)
 
   const customImageryLayer = await Cesium.TileMapServiceImageryProvider.fromUrl(
-    'http://10.8.240.59:8888/assets/tiles/map/baidu/guangzhou/{z}/{x}/{y}.png',
-    {
-      fileExtension: 'png',
-      minimumLevel: 3,
-      maximumLevel: 8
-    }
+    Cesium.buildModuleUrl(`/assets/tiles/map1/baidu/qingdao/{z}/{x}/{y}.png`) //服务地址
   )
-  // customImageryLayer._tilingScheme = tilingScheme
   viewer.imageryLayers.addImageryProvider(customImageryLayer)
 }
 
