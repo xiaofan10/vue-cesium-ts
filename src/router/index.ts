@@ -111,6 +111,14 @@ export const routes = [
         component: () => import('@/views/CesiumEffects/Entity.vue')
       },
       {
+        path: 'OfflineMap',
+        name: 'OfflineMap',
+        meta: {
+          title: 'OfflineMap'
+        },
+        component: () => import('@/views/CesiumEffects/OfflineMap.vue')
+      },
+      {
         path: 'Material',
         name: 'Material',
         meta: {
