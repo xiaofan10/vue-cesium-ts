@@ -1,3 +1,31 @@
+<template>
+  <div class="container">
+    <div class="cesium-container" ref="cesiumContainer"></div>
+    <mars-dialog :visible="true" right="10" top="10" bottom="10" width="300" title="UI组件展示">
+      <a-space>
+        Select
+        <mars-select
+          ref="select"
+          v-model:value="materialTypeValue"
+          :options="materialOptions"
+          style="width: 120px"
+        >
+        </mars-select>
+      </a-space>
+      <br />
+      <br />
+      <a-space>
+        <mars-button size="small" @click="handleDialog">dialog</mars-button>
+      </a-space>
+      <br />
+      <br />
+      <mars-input placeholder="input"></mars-input>
+    </mars-dialog>
+
+    <mars-dialog :visible="dialogVisible" right="10" width="300" title="dialog"> </mars-dialog>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import { getDefaultConfig } from '@/utils/cesiumUtils'
@@ -50,34 +78,6 @@ onMounted(() => {
   initCesium()
 })
 </script>
-
-<template>
-  <div class="container">
-    <div class="cesium-container" ref="cesiumContainer"></div>
-    <mars-dialog :visible="true" left="10" top="10" bottom="10" width="300" title="UI组件展示">
-      <a-space>
-        Select
-        <mars-select
-          ref="select"
-          v-model:value="materialTypeValue"
-          :options="materialOptions"
-          style="width: 120px"
-        >
-        </mars-select>
-      </a-space>
-      <br />
-      <br />
-      <a-space>
-        <mars-button size="small" @click="handleDialog">dialog</mars-button>
-      </a-space>
-      <br />
-      <br />
-      <mars-input placeholder="input"></mars-input>
-    </mars-dialog>
-
-    <mars-dialog :visible="dialogVisible" right="10" width="300" title="dialog"> </mars-dialog>
-  </div>
-</template>
 
 <style lang="less" scoped>
 .container {

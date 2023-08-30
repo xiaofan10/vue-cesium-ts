@@ -42,7 +42,7 @@ import siliao from '@/assets/images/siliao.png'
 import dami from '@/assets/images/dami.png'
 import xiaomai from '@/assets/images/xiaomai.png'
 import yumi from '@/assets/images/yumi.png'
-console.log(yangzhi)
+import cangchu from '@/assets/images/cangchu.png'
 
 const dpr = ref<number>(1)
 const width = ref<number>(window.innerWidth)
@@ -74,7 +74,8 @@ const seriesOpt = {
     fontSize: 20
   },
   itemStyle: {
-    color: '#29b8e1'
+    color: '#29b8e1',
+    opacity: 1
   },
   z: 4,
   emphasis: {
@@ -105,7 +106,7 @@ const getOptions = () => ({
     {
       ...seriesOpt,
       data: coords.filter((item) => item.type == 1),
-      symbol: 'circle',
+      symbol: `image://http://${location.host}${cangchu}`,
       label: {
         show: true,
         formatter: '{@[3]}',
@@ -117,13 +118,6 @@ const getOptions = () => ({
       ...seriesOpt,
       data: coords.filter((item) => item.type == 7),
       symbol: `image://http://${location.host}${yangzhi}`
-      // label: {
-      //   show: true,
-      //   formatter: '{@[3]}',
-      //   color: '#fff',
-      //   offset: [0, 2],
-      //   fontSize: 20
-      // }
     },
     {
       ...seriesOpt,
@@ -156,7 +150,17 @@ const getOptions = () => ({
       type: 'map',
       map: 'northEastL2',
       roam: true,
-      data: [],
+      data: northEastL2.features.map((item) => {
+        console.log(item.properties)
+        const p = item.properties
+        return {
+          name: p.name,
+          value: 1,
+          itemStyle: {
+            areaColor: areaColor[item.properties.adcode]
+          }
+        }
+      }),
       z: 1,
       label: {
         show: true,
@@ -167,7 +171,6 @@ const getOptions = () => ({
         }
       },
       itemStyle: {
-        // areaColor: 'transparent',
         borderColor: '#393939',
         borderWidth: 3
       }
@@ -231,10 +234,10 @@ const handleChange = () => {
 
 const sheet = ref<HTMLDivElement>()
 const areaColor = {
-  210000: '#f00',
-  150000: '#0f0',
-  230000: '#ff0',
-  220000: '#0ff'
+  210000: '#ddd9eb',
+  150000: '#fffcdb',
+  230000: '#deeed7',
+  220000: '#fed4e4'
 }
 
 const downloadImage = () => {
@@ -259,7 +262,6 @@ const initChart = () => {
 onMounted(() => {
   initChart()
 })
-// 5760 3240
 </script>
 
 <style lang="less" scoped>
@@ -267,7 +269,6 @@ onMounted(() => {
   position: fixed;
   top: 0%;
   left: 0%;
-  z-index: 9999999;
   width: 200%;
   height: 200%;
   background: #fff;
