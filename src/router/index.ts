@@ -103,6 +103,14 @@ export const routes = [
         component: () => import('@/views/CesiumEffects/Map.vue')
       },
       {
+        path: 'ContourLine',
+        name: 'ContourLine',
+        meta: {
+          title: 'ContourLine'
+        },
+        component: () => import('@/views/CesiumEffects/ContourLine.vue')
+      },
+      {
         path: 'Entity',
         name: 'Entity',
         meta: {

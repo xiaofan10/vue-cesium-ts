@@ -6,9 +6,9 @@
   </a-button>
 </template>
 <script lang="ts">
-import { useAttrs, useSlots, defineComponent } from "vue"
+import { useAttrs, useSlots, defineComponent } from 'vue'
 export default defineComponent({
-  name: "mars-button",
+  name: 'mars-button',
   inheritAttrs: false,
   setup() {
     const attrs = useAttrs()
@@ -39,12 +39,12 @@ export default defineComponent({
 }
 .mars-button:not([disabled]) {
   &:hover {
-  color: #ffffff;
+    color: #ffffff;
     border-color: #89bceb;
     background: var(--mars-hover-btn-bg);
   }
   &:focus {
-  color: #ffffff;
+    color: #ffffff;
     border-color: #89bceb;
     background: var(--mars-click-btn-bg);
   }

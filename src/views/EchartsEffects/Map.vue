@@ -57,7 +57,6 @@ let chart: ECharts
 const coords = []
 
 let includes: string[] = label.value.split(',')
-console.log(includes.join(','))
 const seriesOpt = {
   name: 'pos',
   type: 'scatter',
@@ -103,47 +102,47 @@ const getOptions = () => ({
     z: 3
   },
   series: [
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 1),
-      symbol: `image://http://${location.host}${cangchu}`,
-      label: {
-        show: true,
-        formatter: '{@[3]}',
-        fontSize: 20
-      }
-    },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 1),
+    //   symbol: `image://http://${location.host}${cangchu}`,
+    //   label: {
+    //     show: true,
+    //     formatter: '{@[3]}',
+    //     fontSize: 20
+    //   }
+    // },
 
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 7),
-      symbol: `image://http://${location.host}${yangzhi}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 6),
-      symbol: `image://http://${location.host}${siliao}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 5),
-      symbol: `image://http://${location.host}${yumi}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 4),
-      symbol: `image://http://${location.host}${dami}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 3),
-      symbol: `image://http://${location.host}${xiaomai}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 2),
-      symbol: `image://http://${location.host}${dadou}`
-    },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 7),
+    //   symbol: `image://http://${location.host}${yangzhi}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 6),
+    //   symbol: `image://http://${location.host}${siliao}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 5),
+    //   symbol: `image://http://${location.host}${yumi}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 4),
+    //   symbol: `image://http://${location.host}${dami}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 3),
+    //   symbol: `image://http://${location.host}${xiaomai}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 2),
+    //   symbol: `image://http://${location.host}${dadou}`
+    // },
 
     {
       name: '底图',
@@ -234,10 +233,10 @@ const handleChange = () => {
 
 const sheet = ref<HTMLDivElement>()
 const areaColor = {
-  210000: '#ddd9eb',
+  210000: '#fed4e4',
   150000: '#fffcdb',
   230000: '#deeed7',
-  220000: '#fed4e4'
+  220000: '#ddd9eb'
 }
 
 const downloadImage = () => {
