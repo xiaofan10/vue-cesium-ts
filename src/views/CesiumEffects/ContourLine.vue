@@ -60,7 +60,7 @@ async function createElevationBand(viewer) {
       }
     ]
   })
-  // viewer.scene.globe.material = elevationBandMaterial
+  viewer.scene.globe.material = elevationBandMaterial
 }
 
 async function createElevationRamp(

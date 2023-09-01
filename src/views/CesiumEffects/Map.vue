@@ -46,8 +46,8 @@ const initCesium = async () => {
   })
   const customLayer = await Cesium.TileMapServiceImageryProvider.fromUrl(
     Cesium.buildModuleUrl('http://127.0.0.1:8888/assets/tiles/tiles'),{
-      // minimumLevel:3,
-      // maximumLevel:12
+      minimumLevel:0,
+      maximumLevel:9
     }
   )
   // //  new Cesium.UrlTemplateImageryProvider({

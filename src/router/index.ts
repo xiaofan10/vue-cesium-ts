@@ -79,6 +79,14 @@ export const routes = [
     redirect: '/CesiumEffects/Material',
     children: [
       {
+        path: 'Animate',
+        name: 'Animate',
+        meta: {
+          title: 'Animate'
+        },
+        component: () => import('@/views/CesiumEffects/Animate.vue')
+      },
+      {
         path: 'Fly',
         name: 'Fly',
         meta: {
