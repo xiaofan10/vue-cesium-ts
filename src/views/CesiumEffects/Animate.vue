@@ -89,20 +89,20 @@ const createRunSampledBox = (viewer) => {
   entity.position.addSample(endTime, Cesium.Cartesian3.fromDegrees(-100, lat, height))
   viewer.trackedEntity = entity
 
-//   viewer.screenSpaceEventHandler.setInputAction(function (event) {
-//     const point = viewer.scene.pickPosition(event.position)
-//     if (point) {
-//       const end = Cesium.JulianDate.addSeconds(
-//         viewer.clock.stopTime,
-//         duration,
-//         new Cesium.JulianDate()
-//       )
-//       viewer.clock.stopTime = end.clone()
-//       entity.position.addSample(end, point)
-//       viewer.trackedEntity = null
-//     viewer.trackedEntity = entity
-//     }
-//   }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+  viewer.screenSpaceEventHandler.setInputAction(function (event) {
+    const point = viewer.scene.pickPosition(event.position)
+    if (point) {
+      const end = Cesium.JulianDate.addSeconds(
+        viewer.clock.stopTime,
+        duration,
+        new Cesium.JulianDate()
+      )
+      viewer.clock.stopTime = end.clone()
+      entity.position.addSample(end, point)
+      viewer.trackedEntity = null
+    viewer.trackedEntity = entity
+    }
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 }
 
 const handler = {
