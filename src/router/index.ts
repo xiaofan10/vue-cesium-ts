@@ -53,6 +53,14 @@ export const routes = [
     redirect: '/EchartsEffects/Map',
     children: [
       {
+        path: 'Custom',
+        name: 'Custom',
+        meta: {
+          title: 'Custom'
+        },
+        component: () => import('@/views/EchartsEffects/Custom.vue')
+      },
+      {
         path: 'Map',
         name: 'Map',
         meta: {
@@ -67,6 +75,14 @@ export const routes = [
           title: 'BMap'
         },
         component: () => import('@/views/EchartsEffects/BMap.vue')
+      },
+      {
+        path: 'Sankey',
+        name: 'Sankey',
+        meta: {
+          title: 'Sankey'
+        },
+        component: () => import('@/views/EchartsEffects/Sankey.vue')
       }
     ]
   },

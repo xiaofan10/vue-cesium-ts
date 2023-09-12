@@ -35,6 +35,7 @@ import { computed, onMounted, ref } from 'vue'
 import northEastL4 from '@/assets/geo/northEastL4.json'
 import northEastL3 from '@/assets/geo/northEastL3.json'
 import northEastL2 from '@/assets/geo/northEastL2.json'
+import chinaGeo from '@/assets/geo/china.json'
 import geoCoord from '@/assets/geo/dd.json'
 import yangzhi from '@/assets/images/yangzhi.png'
 import dadou from '@/assets/images/dadou.png'
@@ -43,6 +44,7 @@ import dami from '@/assets/images/dami.png'
 import xiaomai from '@/assets/images/xiaomai.png'
 import yumi from '@/assets/images/yumi.png'
 import cangchu from '@/assets/images/cangchu.png'
+import maiya from '@/assets/images/maiya.png'
 
 const dpr = ref<number>(1)
 const width = ref<number>(window.innerWidth)
@@ -83,7 +85,94 @@ const seriesOpt = {
     }
   }
 }
+
+const scatterCity = () => {
+  const data = northEastL3.features.map((item) => {
+    console.log(item.properties)
+    const p = item.properties
+    return {
+      name: item.name,
+      value: [...p.center, 0]
+    }
+  })
+  return {
+    ...seriesOpt,
+    symbolSize: 10,
+    label: {
+      show: true,
+      formatter: '{@[3]}',
+      color: '#000',
+      offset: [0, 2],
+      fontSize: 20
+    },
+
+    data: data
+  }
+}
+
+const mapBg2 = () => {
+  return {
+    name: '底图',
+    type: 'map',
+    map: 'northEastL2',
+    roam: true,
+    data: northEastL2.features.map((item) => {
+      console.log(item.properties)
+      const p = item.properties
+      return {
+        name: p.name,
+        value: 1,
+        itemStyle: {
+          areaColor: areaColor[item.properties.adcode]
+        }
+      }
+    }),
+    z: 1,
+    label: {
+      show: true,
+      fontSize: fontSize.value,
+      fontWeight: 'bold',
+      formatter({ name }) {
+        return !includes.includes(name) ? name : ''
+      }
+    },
+    itemStyle: {
+      borderColor: '#393939',
+      borderWidth: 3
+    }
+  }
+}
+
+const mapBg3 = () => {
+  return {
+    name: '底图',
+    type: 'map',
+    map: 'northEastL3',
+    roam: true,
+    z: 2,
+    data: [],
+    label: {
+      show: true,
+      fontWeight: 'bold',
+      fontSize: fontSize.value,
+      formatter({ name }) {
+        return !includes.includes(name) ? name : ''
+      }
+    },
+    itemStyle: {
+      areaColor: 'transparent',
+      borderColor: '#767676',
+      borderWidth: 2
+    }
+  }
+}
+
+scatterCity()
+
 const getOptions = () => ({
+  tooltip: {
+    show: true
+  },
   geo: {
     name: 'northEastL4',
     type: 'map',
@@ -102,99 +191,77 @@ const getOptions = () => ({
     z: 3
   },
   series: [
-    // {
-    //   ...seriesOpt,
-    //   data: coords.filter((item) => item.type == 1),
-    //   symbol: `image://http://${location.host}${cangchu}`,
-    //   label: {
-    //     show: true,
-    //     formatter: '{@[3]}',
-    //     fontSize: 20
-    //   }
-    // },
-
-    // {
-    //   ...seriesOpt,
-    //   data: coords.filter((item) => item.type == 7),
-    //   symbol: `image://http://${location.host}${yangzhi}`
-    // },
-    // {
-    //   ...seriesOpt,
-    //   data: coords.filter((item) => item.type == 6),
-    //   symbol: `image://http://${location.host}${siliao}`
-    // },
-    // {
-    //   ...seriesOpt,
-    //   data: coords.filter((item) => item.type == 5),
-    //   symbol: `image://http://${location.host}${yumi}`
-    // },
-    // {
-    //   ...seriesOpt,
-    //   data: coords.filter((item) => item.type == 4),
-    //   symbol: `image://http://${location.host}${dami}`
-    // },
-    // {
-    //   ...seriesOpt,
-    //   data: coords.filter((item) => item.type == 3),
-    //   symbol: `image://http://${location.host}${xiaomai}`
-    // },
-    // {
-    //   ...seriesOpt,
-    //   data: coords.filter((item) => item.type == 2),
-    //   symbol: `image://http://${location.host}${dadou}`
-    // },
-
+    // scatterCity()
     {
-      name: '底图',
-      type: 'map',
-      map: 'northEastL2',
-      roam: true,
-      data: northEastL2.features.map((item) => {
-        console.log(item.properties)
-        const p = item.properties
-        return {
-          name: p.name,
-          value: 1,
-          itemStyle: {
-            areaColor: areaColor[item.properties.adcode]
-          }
-        }
-      }),
-      z: 1,
+      ...seriesOpt,
+      data: coords.filter((item) => item.type == 1),
+      symbol: `image://http://${location.host}${cangchu}`,
       label: {
         show: true,
-        fontSize: fontSize.value,
-        fontWeight: 'bold',
-        formatter({ name }) {
-          return !includes.includes(name) ? name : ''
-        }
-      },
-      itemStyle: {
-        borderColor: '#393939',
-        borderWidth: 3
+        formatter: '{@[3]}',
+        fontSize: 20
       }
     },
+
     {
-      name: '底图',
-      type: 'map',
-      map: 'northEastL3',
-      roam: true,
-      z: 2,
-      data: [],
-      label: {
-        show: true,
-        fontWeight: 'bold',
-        fontSize: fontSize.value,
-        formatter({ name }) {
-          return !includes.includes(name) ? name : ''
-        }
-      },
-      itemStyle: {
-        areaColor: 'transparent',
-        borderColor: '#767676',
-        borderWidth: 2
-      }
-    }
+      ...seriesOpt,
+      data: coords.filter((item) => item.type == 7),
+      symbol: `image://http://${location.host}${yangzhi}`
+    },
+    {
+      ...seriesOpt,
+      data: coords.filter((item) => item.type == 6),
+      symbol: `image://http://${location.host}${siliao}`
+    },
+    {
+      ...seriesOpt,
+      data: coords.filter((item) => item.type == 5),
+      symbol: `image://http://${location.host}${yumi}`
+    },
+    {
+      ...seriesOpt,
+      data: coords.filter((item) => item.type == 4),
+      symbol: `image://http://${location.host}${dami}`
+    },
+    {
+      ...seriesOpt,
+      data: coords.filter((item) => item.type == 3),
+      symbol: `image://http://${location.host}${xiaomai}`
+    },
+    {
+      ...seriesOpt,
+      data: coords.filter((item) => item.type == 2),
+      symbol: `image://http://${location.host}${dadou}`
+    },
+    {
+      ...seriesOpt,
+      data: coords.filter((item) => item.type == 8),
+      symbol: `image://http://${location.host}${maiya}`
+    },
+
+    mapBg2(),
+    mapBg3()
+    // {
+    //   name: '中国地图',
+    //   type: 'map',
+    //   map: 'chinaGeo',
+    //   roam: true,
+
+    //   z: 1,
+    //   label: {
+    //     show: true,
+    //     fontSize: fontSize.value,
+    //     fontWeight: 'bold'
+    //     // formatter({ name }) {
+    //     //   return !includes.includes(name) ? name : ''
+    //     // }
+    //   },
+    //   itemStyle: {
+    //     borderColor: '#fff',
+    //     borderWidth: 1,
+    //     areaColor: '#5EC4FC'
+    //   }
+    // }
   ]
 })
 
@@ -255,6 +322,8 @@ const initChart = () => {
   echarts.registerMap('northEastL4', northEastL4 as any)
   echarts.registerMap('northEastL3', northEastL3 as any)
   echarts.registerMap('northEastL2', northEastL2 as any)
+  echarts.registerMap('chinaGeo', chinaGeo as any)
+  console.log(chinaGeo)
   chart.setOption(getOptions())
 }
 

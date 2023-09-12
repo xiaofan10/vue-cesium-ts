@@ -42,8 +42,12 @@ const createBoxEntity = (
   const entity = viewer.entities.add({
     name: 'box',
     position: position || Cesium.Cartesian3.fromDegrees(-107.0, 40.0, 300000.0),
-    box: {
-      dimensions: new Cesium.Cartesian3(x || 400000.0, y || 300000.0, z || 500000.0)
+    // box: {
+    //   dimensions: new Cesium.Cartesian3(x || 400000.0, y || 300000.0, z || 500000.0)
+    // },
+    point: {
+      pixelSize: 20,
+      color: Cesium.Color.RED
     }
   })
   return entity
@@ -62,10 +66,9 @@ const createRunBox = (viewer) => {
     const l = lon + num * step
     num++
     const cartesian3 = Cesium.Cartesian3.fromDegrees(l, lat, height)
-    viewer.trackedEntity = null
-    viewer.trackedEntity = entity
     return cartesian3
   }, false)
+  viewer.trackedEntity = entity
 }
 
 const createRunSampledBox = (viewer) => {
@@ -85,12 +88,14 @@ const createRunSampledBox = (viewer) => {
   const position = Cesium.Cartesian3.fromDegrees(lon, lat, height)
   const entity = createBoxEntity(viewer, { position })
   entity.position = new Cesium.SampledPositionProperty()
+  console.log(Cesium.Cartesian3.fromDegrees(lon, lat, height))
   entity.position.addSample(startTime, Cesium.Cartesian3.fromDegrees(lon, lat, height))
   entity.position.addSample(endTime, Cesium.Cartesian3.fromDegrees(-100, lat, height))
   viewer.trackedEntity = entity
 
   viewer.screenSpaceEventHandler.setInputAction(function (event) {
     const point = viewer.scene.pickPosition(event.position)
+    console.log(point)
     if (point) {
       const end = Cesium.JulianDate.addSeconds(
         viewer.clock.stopTime,
@@ -100,14 +105,15 @@ const createRunSampledBox = (viewer) => {
       viewer.clock.stopTime = end.clone()
       entity.position.addSample(end, point)
       viewer.trackedEntity = null
-    viewer.trackedEntity = entity
+      viewer.trackedEntity = entity
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 }
 
 const handler = {
   addBox() {
-    createBoxEntity(viewer)
+    const entity = createBoxEntity(viewer)
+    viewer.trackedEntity = entity
   },
   addRunBox() {
     createRunBox(viewer)
@@ -116,9 +122,16 @@ const handler = {
     createRunSampledBox(viewer)
   }
 }
-
+async function createWorldTerrain(viewer, { requestWaterMask, requestVertexNormals }) {
+  const terrain = await Cesium.createWorldTerrainAsync({
+    requestWaterMask: requestWaterMask,
+    requestVertexNormals: requestVertexNormals
+  })
+  viewer.terrainProvider = terrain
+}
 onMounted(() => {
   initCesium()
+  createWorldTerrain(viewer, { requestWaterMask: true, requestVertexNormals: true })
 })
 </script>
 

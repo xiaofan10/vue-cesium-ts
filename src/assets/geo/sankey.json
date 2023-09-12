@@ -1,0 +1,452 @@
+{
+  "nodes": [
+    {
+      "name": "中粮集团有限公司"
+    },
+    {
+      "name": "中粮集团(香港)有限公司"
+    },
+    {
+      "name": "中国中纺集团有限公司"
+    },
+    {
+      "name": "中纺粮油进出口有限责任公司"
+    },
+    {
+      "name": "中粮福临门股份有限公司"
+    },
+    {
+      "name": "COFCO INTERNATIONAL LIMITED"
+    },
+    {
+      "name": "COFCO INTERNATIONAL HOLDINGS LIMITED"
+    },
+    {
+      "name": "COFCO Oils & Fats Holdings Limited"
+    },
+    {
+      "name": "China Agri-Industries HoldingsLimited"
+    },
+    {
+      "name": "China Agri-Industries Limited"
+    },
+    {
+      "name": "中粮贸易有限公司"
+    },
+    {
+      "name": "COFCO Biochemical Investment Co., Ltd."
+    },
+    {
+      "name": "中粮生物科技股份有限公司"
+    },
+    {
+      "name": "中粮糖业控股股份有限公司"
+    },
+    {
+      "name": "深圳市明诚金融服务有限公司"
+    },
+    {
+      "name": "中谷粮油集团有限公司"
+    },
+    {
+      "name": "中粮科工股份有限公司"
+    },
+    {
+      "name": "COFCO (HONG KONG) LIMITED"
+    },
+    {
+      "name": "CHINA FOODS (HOLDINGS) LIMITED"
+    },
+    {
+      "name": "COFCO Wines & Spirits Holdings Limited"
+    },
+    {
+      "name": "China Foods Limited"
+    },
+    {
+      "name": "COFCO BEVERAGES LIMITED"
+    },
+    {
+      "name": "COFCO COCA-COLA BEVERAGES LIMITED"
+    },
+    {
+      "name": "中国土产畜产进出口有限责任公司"
+    },
+    {
+      "name": "中国茶叶股份有限公司"
+    },
+    {
+      "name": "中国食品(控股)有限公司"
+    },
+    {
+      "name": "CPMC Holdings Limited"
+    },
+    {
+      "name": "明晖国际有限公司"
+    },
+    {
+      "name": "COFCO JOYCOME FOODS LIMITED"
+    },
+    {
+      "name": "志远有限公司"
+    },
+    {
+      "name": "China Mengniu Dairy Co. Ltd."
+    },
+    {
+      "name": "中粮乳业控股有限公司"
+    },
+    {
+      "name": "彩泉有限公司"
+    },
+    {
+      "name": "亘达有限公司",
+      "depth": 1
+    },
+    {
+      "name": "万德丰(北京)投资管理有限公司"
+    },
+    {
+      "name": "中粮我买网(香港)有限公司"
+    },
+    {
+      "name": "中粮我买网投资有限公司"
+    },
+    {
+      "name": "COFCO WOMAI LIMITED"
+    },
+    {
+      "name": "明毅有限公司"
+    },
+    {
+      "name": "大悦城控股集团股份有限公司"
+    },
+    {
+      "name": "JOY CITY PROPERTY LIMITED"
+    },
+    {
+      "name": "得茂有限公司"
+    },
+    {
+      "name": "中粮资本控股股份有限公司"
+    },
+    {
+      "name": "中粮营养健康研究院有限公司"
+    }
+  ],
+  "links": [
+    {
+      "source": "中粮集团有限公司",
+      "target": "中粮集团(香港)有限公司",
+      "value": 100
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中国中纺集团有限公司",
+      "value": 100
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中纺粮油进出口有限责任公司",
+      "value": 100
+    },
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "中粮福临门股份有限公司",
+      "value": 3
+    },
+    {
+      "source": "中国中纺集团有限公司",
+      "target": "中粮福临门股份有限公司",
+      "value": 2
+    },
+    {
+      "source": "中纺粮油进出口有限责任公司",
+      "target": "中粮福临门股份有限公司",
+      "value": 1.49
+    },
+    {
+      "source": "中粮福临门股份有限公司",
+      "target": "COFCO INTERNATIONAL LIMITED",
+      "value": 37.99
+    },
+    {
+      "source": "中纺粮油进出口有限责任公司",
+      "target": "COFCO Oils & Fats Holdings Limited",
+      "value": 90
+    },
+    {
+      "source": "中粮福临门股份有限公司",
+      "target": "China Agri-Industries HoldingsLimited",
+      "value": 100
+    },
+    {
+      "source": "China Agri-Industries HoldingsLimited",
+      "target": "China Agri-Industries Limited",
+      "value": 100
+    },
+    {
+      "source": "China Agri-Industries Limited",
+      "target": "COFCO Grains Holdings Limited",
+      "value": 100
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中粮贸易有限公司",
+      "value": 100
+    },
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "COFCO Biochemical Investment Co., Ltd.",
+      "value": 100
+    },
+    {
+      "source": "COFCO Biochemical Investment Co., Ltd.",
+      "target": "中粮生物科技股份有限公司",
+      "value": 47.58
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中粮糖业控股股份有限公司",
+      "value": 50.73
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中国中纺集团有限公司",
+      "value": 100
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "深圳市明诚金融服务有限公司",
+      "value": 100
+    },
+    {
+      "source": "深圳市明诚金融服务有限公司",
+      "target": "中粮科工股份有限公司",
+      "value": 3
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中谷粮油集团有限公司",
+      "value": 100
+    },
+    {
+      "source": "中谷粮油集团有限公司",
+      "target": "中粮科工股份有限公司",
+      "value": 39.48
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "COFCO (HONG KONG) LIMITED",
+      "value": 100
+    },
+    {
+      "source": "COFCO (HONG KONG) LIMITED",
+      "target": "CHINA FOODS (HOLDINGS) LIMITED",
+      "value": 100
+    },
+    {
+      "source": "CHINA FOODS (HOLDINGS) LIMITED",
+      "target": "COFCO Wines & Spirits Holdings Limited",
+      "value": 100
+    },
+
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "CHINA FOODS (HOLDINGS) LIMITED",
+      "value": 100
+    },
+    {
+      "source": "CHINA FOODS (HOLDINGS) LIMITED",
+      "target": "China Foods Limited",
+      "value": 74.1
+    },
+    {
+      "source": "China Foods Limited",
+      "target": "COFCO BEVERAGES LIMITED",
+      "value": 100
+    },
+    {
+      "source": "COFCO BEVERAGES LIMITED",
+      "target": "COFCO COCA-COLA BEVERAGES LIMITED",
+      "value": 65
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中国土产畜产进出口有限责任公司",
+      "value": 100
+    },
+    {
+      "source": "中国土产畜产进出口有限责任公司",
+      "target": "中国茶叶股份有限公司",
+      "value": 40
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中国食品(控股)有限公司",
+      "value": 74.1
+    },
+    {
+      "source": "中国食品(控股)有限公司",
+      "target": "CPMC Holdings Limited",
+      "value": 29.7
+    },
+
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "COFCO JOYCOME FOODS LIMITED",
+      "value": 16.77
+    },
+
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "明晖国际有限公司",
+      "value": 100
+    },
+    {
+      "source": "明晖国际有限公司",
+      "target": "COFCO JOYCOME FOODS LIMITED",
+      "value": 16.77
+    },
+
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "中国食品(控股)有限公司",
+      "value": 100
+    },
+    {
+      "source": "中国食品(控股)有限公司",
+      "target": "志远有限公司",
+      "value": 100
+    },
+    {
+      "source": "志远有限公司",
+      "target": "中粮乳业控股有限公司",
+      "value": 70
+    },
+    {
+      "source": "中粮乳业控股有限公司",
+      "target": "中粮乳业投资有限公司",
+      "value": 82.16
+    },
+    {
+      "source": "中粮乳业投资有限公司",
+      "target": "China Mengniu Dairy Co. Ltd.",
+      "value": 13.91
+    },
+
+    {
+      "source": "中国食品(控股)有限公司",
+      "target": "志远有限公司",
+      "value": 100
+    },
+    {
+      "source": "志远有限公司",
+      "target": "彩泉有限公司",
+      "value": 100
+    },
+    {
+      "source": "彩泉有限公司",
+      "target": "中粮乳业投资有限公司",
+      "value": 17.84
+    },
+    {
+      "source": "中粮乳业投资有限公司",
+      "target": "亘达有限公司",
+      "value": 100
+    },
+    {
+      "source": "亘达有限公司",
+      "target": "China Mengniu Dairy Co. Ltd.",
+      "value": 7.48
+    },
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "China Mengniu Dairy Co. Ltd.",
+      "value": 2.32
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "万德丰(北京)投资管理有限公司",
+      "value": 100
+    },
+    {
+      "source": "万德丰(北京)投资管理有限公司",
+      "target": "China Mengniu Dairy Co. Ltd.",
+      "value": 0.3
+    },
+
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "中粮我买网(香港)有限公司",
+      "value": 40.87
+    },
+    {
+      "source": "中粮我买网(香港)有限公司",
+      "target": "中粮我买网投资有限公司",
+      "value": 100
+    },
+    {
+      "source": "中粮我买网投资有限公司",
+      "target": "COFCO WOMAI LIMITED",
+      "value": 100
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "大悦城控股集团股份有限公司",
+      "value": 20
+    },
+
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "明毅有限公司",
+      "value": 100
+    },
+    {
+      "source": "明毅有限公司",
+      "target": "大悦城控股集团股份有限公司",
+      "value": 49
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "大悦城控股集团股份有限公司",
+      "value": 20
+    },
+    {
+      "source": "大悦城控股集团股份有限公司",
+      "target": "JOY CITY PROPERTY LIMITED",
+      "value": 64.18
+    },
+
+    {
+      "source": "中粮集团(香港)有限公司",
+      "target": "得茂有限公司",
+      "value": 100
+    },
+    {
+      "source": "得茂有限公司",
+      "target": "JOY CITY PROPERTY LIMITED",
+      "value": 2.58
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中粮资本控股股份有限公司",
+      "value": 62.78
+    },
+    {
+      "source": "中粮集团有限公司",
+      "target": "中粮营养健康研究院有限公司",
+      "value": 100
+    },
+    {
+      "source": "中粮福临门股份有限公司",
+      "target": "COFCO INTERNATIONAL HOLDINGS LIMITED",
+      "value": 19.9
+    },
+    {
+      "source": "COFCO INTERNATIONAL HOLDINGS LIMITED",
+      "target": "COFCO INTERNATIONAL LIMITED",
+      "value": 62.01
+    }
+  ]
+}
