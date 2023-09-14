@@ -83,6 +83,14 @@ export const routes = [
           title: 'Sankey'
         },
         component: () => import('@/views/EchartsEffects/Sankey.vue')
+      },
+      {
+        path: 'Chart3',
+        name: 'Chart3',
+        meta: {
+          title: 'Chart3'
+        },
+        component: () => import('@/views/EchartsEffects/Chart3.vue')
       }
     ]
   },

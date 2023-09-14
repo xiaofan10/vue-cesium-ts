@@ -102,6 +102,7 @@ const initChart = () => {
         return params.name + ': ' + params.value + '%'
       }
     },
+    color: ['#A0D4FA', '#63A6F5', '#3561AF', '#182F74'],
     series: [
       {
         type: 'sankey',
@@ -121,7 +122,7 @@ const initChart = () => {
         selectedMode: 'single',
         select: {
           lineStyle: {
-            color: '#f00',
+            color: '#0ee9e5',
             opacity: 1
           }
         }
