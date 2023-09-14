@@ -14,7 +14,7 @@ import { routes } from './router'
 </template>
 
 <style scoped lang="less">
-@aside-width: 100px;
+@aside-width: 60px;
 .main {
   position: relative;
   box-sizing: border-box;

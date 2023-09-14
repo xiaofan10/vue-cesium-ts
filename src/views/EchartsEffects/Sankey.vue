@@ -1,15 +1,16 @@
 <template>
-  <div class="sheet" ref="sheet" :style="sheetStyleCom"></div>
+  <div class="sheet" ref="sheet"></div>
   <div class="tool">
     <a-space>
-      长度
-      <mars-input v-model:value="width" type="number" />
+      起始点
+      <mars-input v-model:value="start" />
     </a-space>
 
     <a-space>
-      文件名称
-      <mars-input v-model:value="filename" />
+      终点
+      <mars-input v-model:value="end" />
     </a-space>
+    <mars-button @click="onSearch">搜索</mars-button>
     <mars-button @click="downloadImage">导出图片</mars-button>
   </div>
 </template>
@@ -20,26 +21,36 @@ import { computed, onMounted, ref } from 'vue'
 import sankeyJson from '@/assets/geo/sankey.json'
 
 const dpr = ref<number>(1)
-const width = ref<number>(window.innerWidth)
-const height = ref<number>(window.innerHeight)
+const start = ref<string>('中粮集团有限公司')
+const end = ref<string>('中粮集团(香港)有限公司')
 const filename = ref<string>('地图')
-const fontSize = ref<number>(12)
 
-const sheetStyleCom = computed(() => {
-  const x = dpr.value || 1
-  const w = width.value * x
-  const h = height.value * x
-  const l = w > window.innerWidth ? (w - window.innerWidth) / 2 : -100
-  const t = h > window.innerHeight ? (h - window.innerHeight) / 2 : 0
-  return {
-    left: -l + 'px',
-    top: -t + 'px',
-    width: w + 'px',
-    height: h + 'px'
-  }
-})
 const sheet = ref<HTMLDivElement>()
 let chart: ECharts
+
+const nodes = sankeyJson.nodes
+const links = sankeyJson.links
+const onSearch = () => {
+  console.log(chart)
+  window.chart = chart
+  let dataIndexInside
+  links.forEach((item, i) => {
+    if (item.source === start.value && item.target === end.value) {
+      console.log(i)
+      dataIndexInside = i
+    }
+  })
+  // if (dataIndexInside !== undefined) {
+  chart.dispatchAction({
+    type: 'select',
+    seriesIndex: 0,
+    dataType: 'edge',
+    // dataIndex: dataIndexInside,
+    // name: '中粮集团有限公司 > 中谷粮油集团有限公司',
+    name: start.value + ' > ' + end.value
+  })
+  // }
+}
 
 const getNodes = (data) => {
   const nodesObj = {}
@@ -81,13 +92,16 @@ const getLinks = (data) => {
   return links
 }
 
-const nodes = sankeyJson.nodes
-const links = sankeyJson.links
-console.log(nodes, links)
-
 const initChart = () => {
   chart = echarts.init(sheet.value)
   chart.setOption({
+    tooltip: {
+      show: true,
+      formatter(params) {
+        if (params.dataType === 'node') return
+        return params.name + ': ' + params.value + '%'
+      }
+    },
     series: [
       {
         type: 'sankey',
@@ -96,6 +110,20 @@ const initChart = () => {
         edgeLabel: {
           show: true,
           formatter: '{c}%'
+        },
+        lineStyle: {
+          color: 'source',
+          curveness: 0.5
+        },
+        emphasis: {
+          focus: 'adjacency'
+        },
+        selectedMode: 'single',
+        select: {
+          lineStyle: {
+            color: '#f00',
+            opacity: 1
+          }
         }
       }
     ]
@@ -121,10 +149,10 @@ onMounted(() => {
 <style lang="less" scoped>
 .sheet {
   position: fixed;
-  top: 0%;
-  left: 100px;
-  width: 200%;
-  height: 200%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: #fff;
 }
 .tool {
