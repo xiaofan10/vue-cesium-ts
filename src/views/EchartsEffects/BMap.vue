@@ -1,5 +1,6 @@
 <template>
   <div class="sheet" ref="sheet" :style="sheetStyleCom"></div>
+  <div id="map"></div>
   <div class="tool">
     <a-space>
       长度
@@ -41,6 +42,7 @@ const height = ref<number>(window.innerHeight)
 const filename = ref<string>('地图')
 const fontSize = ref<number>(12)
 let chart: ECharts
+let bMap
 const coords = []
 
 const getOptions = () => ({
@@ -281,8 +283,11 @@ const initChart = () => {
   chart.setOption(getOptions())
 }
 
-onMounted(() => {
-  initChart()
+const getBaiduApi = () => {
+  return chart.getModel().getComponent('bmap').getBMap()
+}
+
+const customBMapArea = () => {
   let map = chart.getModel().getComponent('bmap').getBMap()
   var bdary = new BMap.Boundary()
   const polygonStyle = {
@@ -369,6 +374,33 @@ onMounted(() => {
       pointArray = pointArray.concat(ply.getPath())
     }
   })
+}
+
+const driveApi = () => {
+  var driving = new BMap.DrivingRoute(bMap, {
+    renderOptions: {
+      map: bMap,
+      autoViewport: true
+    }
+  })
+  var start = new BMap.Point(116.310791, 40.003419)
+  var end = new BMap.Point(116.486419, 39.877282)
+  driving.search(start, end)
+}
+const getLocation = () => {
+  var geolocation = new BMap.Geolocation()
+  geolocation.getCurrentPosition((res) => {
+    console.log(res)
+  })
+}
+
+onMounted(() => {
+  initChart()
+  bMap = getBaiduApi()
+// console.log(bMap.getBMap())
+//  var map = new BMap.Map("map"); 
+// console.log(map)
+  driveApi()
 })
 // 5760 3240
 </script>
