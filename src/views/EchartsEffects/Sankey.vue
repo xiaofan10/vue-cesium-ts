@@ -92,6 +92,24 @@ const getLinks = (data) => {
   return links
 }
 
+const custom = {
+  symbol: 'rect', // 使用矩形节点
+  symbolSize: [60, 30], // 设置节点大小
+  label: {
+    show: true,
+    position: 'inside'
+  },
+  itemStyle: {
+    normal: {
+      color: 'blue',
+      borderRadius: 10 // 设置圆角
+    },
+    emphasis: {
+      color: 'red'
+    }
+  }
+}
+
 const initChart = () => {
   chart = echarts.init(sheet.value)
   chart.setOption({
@@ -102,19 +120,30 @@ const initChart = () => {
         return params.name + ': ' + params.value + '%'
       }
     },
-    color: ['#A0D4FA', '#63A6F5', '#3561AF', '#182F74'],
+    color: ['#4995f5'],
     series: [
       {
         type: 'sankey',
         data: nodes,
         links: links,
+        nodeWidth: 50,
+        nodeGap: 8,
+        layoutIterations: 64,
+        // nodeAlign: 'right',
+        itemStyle: {
+          borderJoin: 'round',
+          borderCap: 'round'
+        },
         edgeLabel: {
           show: true,
+          color: '#333',
           formatter: '{c}%'
         },
         lineStyle: {
-          color: 'source',
-          curveness: 0.5
+          color: 'gradient',
+          // color: 'source',
+          curveness: 0.5,
+          opacity: 0.5
         },
         emphasis: {
           focus: 'adjacency'
@@ -154,7 +183,7 @@ onMounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #fff;
+  background: #170747;
 }
 .tool {
   display: true;

@@ -4,216 +4,316 @@
       "name": "中粮集团有限公司"
     },
     {
-      "name": "中粮集团(香港)有限公司"
+      "name": "中粮集团(香港)有限公司",
+      "itemStyle": {
+        "color": "#36BAF4",
+        "borderJoin": "round",
+        "borderWidth": 10,
+        "borderCap": "round"
+      }
     },
     {
       "name": "中国中纺集团有限公司",
       "itemStyle": {
+        "color": "#36BAF4",
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "中纺粮油进出口有限责任公司"
+      "name": "中纺粮油进出口有限责任公司",
+      "itemStyle": {
+        "color": "#36BAF4"
+      }
     },
     {
-      "name": "中粮福临门股份有限公司"
+      "name": "中粮福临门股份有限公司",
+      "itemStyle": {
+        "color": "#E8475C"
+      }
     },
     {
       "name": "中粮国际",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "COFCO INTERNATIONAL HOLDINGS LIMITED"
+      "name": "COFCO INTERNATIONAL HOLDINGS LIMITED",
+      "itemStyle": {
+        "color": "#E9457B"
+      }
     },
     {
       "name": "中粮油脂",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "China Agri-Industries HoldingsLimited"
+      "name": "China Agri-Industries HoldingsLimited",
+      "itemStyle": {
+        "color": "#E9457B"
+      }
     },
     {
-      "name": "China Agri-Industries Limited"
+      "name": "China Agri-Industries Limited",
+      "itemStyle": {
+        "color": "#7A4BD8"
+      }
     },
     {
       "name": "中粮贸易有限公司",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "COFCO Biochemical Investment Co., Ltd."
+      "name": "COFCO Biochemical Investment Co., Ltd.",
+      "itemStyle": {
+        "color": "#E8475C"
+      }
     },
     {
       "name": "中粮生物科技股份有限公司",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
       "name": "中粮糖业控股股份有限公司",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "深圳市明诚金融服务有限公司"
+      "name": "深圳市明诚金融服务有限公司",
+      "itemStyle": {
+        "color": "#36BAF4"
+      }
     },
     {
-      "name": "中谷粮油集团有限公司"
+      "name": "中谷粮油集团有限公司",
+      "itemStyle": {
+        "color": "#36BAF4"
+      }
     },
     {
       "name": "中粮科工股份有限公司",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "COFCO (HONG KONG) LIMITED"
+      "name": "COFCO (HONG KONG) LIMITED",
+      "itemStyle": {
+        "color": "#36BAF4"
+      }
     },
     {
-      "name": "CHINA FOODS (HOLDINGS) LIMITED"
+      "name": "CHINA FOODS (HOLDINGS) LIMITED",
+      "itemStyle": {
+        "color": "#E8475C"
+      }
     },
     {
       "name": "中粮酒业",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "China Foods Limited"
+      "name": "China Foods Limited",
+      "itemStyle": {
+        "color": "#E9457B"
+      }
     },
     {
-      "name": "COFCO BEVERAGES LIMITED"
+      "name": "COFCO BEVERAGES LIMITED",
+      "itemStyle": {
+        "color": "#7A4BD8"
+      }
     },
     {
       "name": "中粮可口可乐",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "中国土产畜产进出口有限责任公司"
+      "name": "中国土产畜产进出口有限责任公司",
+      "itemStyle": {
+        "color": "#36BAF4"
+      }
     },
     {
       "name": "中国茶叶股份有限公司",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "中国食品(控股)有限公司"
+      "name": "中国食品(控股)有限公司",
+      "itemStyle": {
+        "color": "#E8475C"
+      }
     },
     {
       "name": "中粮包装",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "明晖国际有限公司"
+      "name": "明晖国际有限公司",
+      "itemStyle": {
+        "color": "#E8475C"
+      }
     },
     {
       "name": "中粮家佳康",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "志远有限公司"
+      "name": "志远有限公司",
+      "itemStyle": {
+        "color": "#E9457B"
+      }
     },
     {
       "name": "蒙牛乳业",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "中粮乳业控股有限公司"
+      "name": "中粮乳业控股有限公司",
+      "itemStyle": {
+        "color": "#7A4BD8"
+      }
     },
     {
-      "name": "中粮乳业投资有限公司"
+      "name": "中粮乳业投资有限公司",
+      "itemStyle": {
+        "color": "#5226FF"
+      }
     },
 
     {
-      "name": "彩泉有限公司"
+      "name": "彩泉有限公司",
+      "itemStyle": {
+        "color": "#7A4BD8"
+      }
     },
     {
       "name": "亘达有限公司",
-      "depth": 1
+      "depth": 1,
+      "itemStyle": {
+        "color": "#36BAF4"
+      }
     },
     {
-      "name": "万德丰(北京)投资管理有限公司"
+      "name": "万德丰(北京)投资管理有限公司",
+      "itemStyle": {
+        "color": "#36BAF4"
+      }
     },
     {
-      "name": "中粮我买网(香港)有限公司"
+      "name": "中粮我买网(香港)有限公司",
+      "itemStyle": {
+        "color": "#E8475C"
+      }
     },
     {
-      "name": "中粮我买网投资有限公司"
+      "name": "中粮我买网投资有限公司",
+      "itemStyle": {
+        "color": "#E9457B"
+      }
     },
     {
       "name": "我买网",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "明毅有限公司"
+      "name": "明毅有限公司",
+      "itemStyle": {
+        "color": "#E8475C"
+      }
     },
     {
       "name": "大悦城控股集团股份有限公司",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "borderColor": "rgba(255,255,255,.7)",
+        "color": "#E9457B"
       }
     },
     {
       "name": "大悦城控股",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
-      "name": "得茂有限公司"
+      "name": "得茂有限公司",
+      "itemStyle": {
+        "color": "#E8475C"
+      }
     },
     {
       "name": "中粮资本控股股份有限公司",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
       "name": "中粮营养健康研究院有限公司",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     },
     {
       "name": "中粮粮谷",
       "itemStyle": {
         "borderWidth": 5,
-        "borderColor": "#3561AF"
+        "color": "#4DFFDF",
+        "borderColor": "rgba(255,255,255,.7)"
       }
     }
   ],

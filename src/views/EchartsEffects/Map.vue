@@ -167,101 +167,102 @@ const mapBg3 = () => {
   }
 }
 
-scatterCity()
+// scatterCity()
 
 const getOptions = () => ({
   tooltip: {
     show: true
   },
-  geo: {
-    name: 'northEastL4',
-    type: 'map',
-    roam: true,
-    map: 'northEastL4',
-    label: {
-      show: true,
-      fontSize: fontSize.value,
-      formatter({ name }) {
-        return !includes.includes(name) ? name : ''
-      }
-    },
-    itemStyle: {
-      areaColor: 'transparent'
-    },
-    z: 3
-  },
+  // geo: {
+  //   name: 'northEastL4',
+  //   type: 'map',
+  //   roam: true,
+  //   map: 'northEastL4',
+  //   label: {
+  //     show: true,
+  //     fontSize: fontSize.value,
+  //     formatter({ name }) {
+  //       return !includes.includes(name) ? name : ''
+  //     }
+  //   },
+  //   itemStyle: {
+  //     areaColor: 'transparent'
+  //   },
+  //   z: 3
+  // },
   series: [
     // scatterCity()
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 1),
-      symbol: `image://http://${location.host}${cangchu}`,
-      label: {
-        show: true,
-        formatter: '{@[3]}',
-        fontSize: 20
-      }
-    },
-
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 7),
-      symbol: `image://http://${location.host}${yangzhi}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 6),
-      symbol: `image://http://${location.host}${siliao}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 5),
-      symbol: `image://http://${location.host}${yumi}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 4),
-      symbol: `image://http://${location.host}${dami}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 3),
-      symbol: `image://http://${location.host}${xiaomai}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 2),
-      symbol: `image://http://${location.host}${dadou}`
-    },
-    {
-      ...seriesOpt,
-      data: coords.filter((item) => item.type == 8),
-      symbol: `image://http://${location.host}${maiya}`
-    },
-
-    mapBg2(),
-    mapBg3()
     // {
-    //   name: '中国地图',
-    //   type: 'map',
-    //   map: 'chinaGeo',
-    //   roam: true,
-
-    //   z: 1,
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 1),
+    //   symbol: `image://http://${location.host}${cangchu}`,
     //   label: {
     //     show: true,
-    //     fontSize: fontSize.value,
-    //     fontWeight: 'bold'
-    //     // formatter({ name }) {
-    //     //   return !includes.includes(name) ? name : ''
-    //     // }
-    //   },
-    //   itemStyle: {
-    //     borderColor: '#fff',
-    //     borderWidth: 1,
-    //     areaColor: '#5EC4FC'
+    //     formatter: '{@[3]}',
+    //     fontSize: 20
     //   }
-    // }
+    // },
+
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 7),
+    //   symbol: `image://http://${location.host}${yangzhi}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 6),
+    //   symbol: `image://http://${location.host}${siliao}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 5),
+    //   symbol: `image://http://${location.host}${yumi}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 4),
+    //   symbol: `image://http://${location.host}${dami}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 3),
+    //   symbol: `image://http://${location.host}${xiaomai}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 2),
+    //   symbol: `image://http://${location.host}${dadou}`
+    // },
+    // {
+    //   ...seriesOpt,
+    //   data: coords.filter((item) => item.type == 8),
+    //   symbol: `image://http://${location.host}${maiya}`
+    // },
+
+    // mapBg2(),
+    // mapBg3()
+
+    {
+      name: '中国地图',
+      type: 'map',
+      map: 'chinaGeo',
+      roam: true,
+
+      z: 1,
+      label: {
+        show: true,
+        fontSize: fontSize.value,
+        fontWeight: 'bold'
+        // formatter({ name }) {
+        //   return !includes.includes(name) ? name : ''
+        // }
+      },
+      itemStyle: {
+        borderColor: '#fff',
+        borderWidth: 1,
+        areaColor: '#5EC4FC'
+      }
+    }
   ]
 })
 
