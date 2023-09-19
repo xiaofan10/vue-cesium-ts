@@ -15,7 +15,7 @@
     {
       "name": "中国中纺集团有限公司",
       "itemStyle": {
-        "color": "#36BAF4",
+        "color": "#4DFFDF",
         "borderWidth": 5,
         "borderColor": "rgba(255,255,255,.7)"
       }
@@ -275,7 +275,7 @@
       "itemStyle": {
         "borderWidth": 5,
         "borderColor": "rgba(255,255,255,.7)",
-        "color": "#E9457B"
+        "color": "#4DFFDF"
       }
     },
     {

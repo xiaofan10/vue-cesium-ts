@@ -143,7 +143,7 @@ onMounted(() => {
   transition: 1000ms all cubic-bezier(0.19, 1, 0.22, 1);
   transform: translateX(-100%);
   left: 60px;
-  z-index: 99999;
+  z-index: 100;
   &.expanded {
     transform: translateX(0%);
     left: 0px;

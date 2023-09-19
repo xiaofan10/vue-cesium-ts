@@ -13,6 +13,10 @@ export default {
         target: 'https://maps.heigit.org',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/direction': {
+        target: 'https://api.map.baidu.com',
+        changeOrigin: true
       }
     }
   }

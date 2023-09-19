@@ -1,51 +1,111 @@
 <template>
-  <div class="sheet" ref="sheet" :style="sheetStyleCom"></div>
-  <div id="map"></div>
+  <div class="sheet" ref="sheet"></div>
+  <div class="map-result" ref="mapResult"></div>
   <div class="tool">
-    <a-space>
-      长度
-      <mars-input v-model:value="width" @change="handleChange" type="number" />
-    </a-space>
-    <a-space>
-      宽度
-      <mars-input v-model:value="height" @change="handleChange" type="number" />
-    </a-space>
-    <a-space>
-      倍数
-      <mars-input v-model:value="dpr" @change="handleChange" type="number" />
-    </a-space>
-    <a-space>
-      字号
-      <mars-input v-model:value="fontSize" @change="handleChange" type="number" />
-    </a-space>
-    <a-space>
-      文件名称
-      <mars-input v-model:value="filename" />
-    </a-space>
-    <mars-button @click="downloadImage">导出图片</mars-button>
+    <mars-table :columns="columns" :data-source="mockList" :scroll="{ y: 240 }">
+      <!-- <template #action>
+        <a>action</a>
+      </template> -->
+    </mars-table>
   </div>
 </template>
 
 <script setup lang="ts">
 import * as echarts from 'echarts'
 import { computed, onMounted, ref } from 'vue'
+import mockList from '@/assets/mock/companys.js'
 import northEastL4 from '@/assets/geo/northEastL4.json'
 import northEastL2 from '@/assets/geo/northEastL2.json'
+import chinaJson from '@/assets/geo/china.json'
 import geoCoord from '@/assets/geo/dd.json'
 import 'echarts/extension/bmap/bmap'
+import axios from 'axios'
+const columns = [
+  { title: '公司名称', width: 100, dataIndex: 'group', key: 'group', fixed: 'left' },
+  { title: '单位名称', width: 100, dataIndex: 'company', key: 'company', fixed: 'left' },
+  { title: '归属地', width: 100, dataIndex: 'province', key: 'province', fixed: 'left' },
+  { title: '经度', width: 100, dataIndex: 'lon', key: 'lon', fixed: 'left' },
+  { title: '纬度', width: 100, dataIndex: 'lat', key: 'lat', fixed: 'left' },
+  { title: '仓储类型', dataIndex: 'type', key: 'type' }
+  // {
+  //   title: 'Action',
+  //   key: 'operation',
+  //   fixed: 'right',
+  //   width: 100,
+  //   slots: { customRender: 'action' }
+  // }
+]
 
 const areaName = []
 
+class Map {}
+
 const dpr = ref<number>(1)
-const width = ref<number>(window.innerWidth)
-const height = ref<number>(window.innerHeight)
-const filename = ref<string>('地图')
-const fontSize = ref<number>(12)
+const mapResult = ref<HTMLDivElement>()
 let chart: ECharts
 let bMap
 const coords = []
 
+const addScatterLayer = (dataSource) => {
+  const data = dataSource.map((item) => {
+    return {
+      group: item.group,
+      name: item.company,
+      value: [Number(item.lon), Number(item.lat), item.value, 100]
+    }
+  })
+  console.log(data)
+
+  return {
+    name: 'company',
+    type: 'effectScatter',
+    effectType: 'ripple',
+    rippleEffect: {
+      period: 5,
+      number: 4,
+      scale: 4,
+      brushType: 'stroke'
+    },
+    coordinateSystem: 'bmap',
+    data: data,
+
+    encode: {
+      value: 2
+    },
+    symbolSize: 10,
+    label: {
+      show: false,
+      formatter: '{@[2]}'
+    },
+
+    itemStyle: {
+      color: '#f00'
+    },
+    emphasis: {
+      label: {
+        show: true
+      }
+    }
+  }
+}
+
 const getOptions = () => ({
+  tooltip: {
+    show: true,
+    trigger: 'item',
+    formatter: function (params) {
+      console.log(params)
+      return (
+        '&nbsp;&nbsp;&nbsp;' +
+        params.data.group +
+        '<br />' +
+        params.marker +
+        params.name +
+        ' : ' +
+        params.value[2]
+      )
+    }
+  },
   bmap: {
     center: [104.114129, 37.550339],
     zoom: 5,
@@ -183,98 +243,10 @@ const getOptions = () => ({
       ]
     }
   },
-  // geo: {
-  //   name: 'northEastL4',
-  //   type: 'map',
-  //   roam: true,
-  //   map: 'northEastL4',
-  //   label: {
-  //     show: true,
-  //     fontSize: fontSize.value
-  //   }
-  // },
-  series: [
-    // {
-    //   name: 'map',
-    //   type: 'map',
-    //   map: 'northEastL4',
-    //   coordinateSystem: 'bmap',
-    //   roam: true
-    // },
-    {
-      name: 'pm2.5',
-      type: 'scatter',
-      coordinateSystem: 'bmap',
-      data: coords,
-      encode: {
-        value: 2
-      },
-
-      symbolSize: 20,
-      label: {
-        show: true,
-        formatter: '{@[3]}'
-      },
-
-      itemStyle: {
-        color: '#29b8e1'
-      },
-      emphasis: {
-        label: {
-          show: true
-        }
-      }
-    }
-  ]
+  series: [addScatterLayer(mockList)]
 })
-
-const sheetStyleCom = computed(() => {
-  const x = dpr.value || 1
-  const w = width.value * x
-  const h = height.value * x
-  const l = w > window.innerWidth ? (w - window.innerWidth) / 2 : 0
-  const t = h > window.innerHeight ? (h - window.innerHeight) / 2 : 0
-  return {
-    left: -l + 'px',
-    top: -t + 'px',
-    width: w + 'px',
-    height: h + 'px'
-  }
-})
-
-Object.values(geoCoord).forEach((child) => {
-  child.forEach((item) => {
-    coords.push({
-      name: item['单位名称'],
-      value: [item['经度'], item['纬度'], 100, coords.length]
-    })
-  })
-})
-
-const handleChange = () => {
-  const x = dpr.value || 1
-  chart.setOption(getOptions())
-  chart.resize({ width: width.value * x, height: height.value * x })
-}
 
 const sheet = ref<HTMLDivElement>()
-const areaColor = {
-  210000: '#f00',
-  150000: '#0f0',
-  230000: '#ff0',
-  220000: '#0ff'
-}
-
-const downloadImage = () => {
-  const base64Data = chart.getDataURL()
-  const a = document.createElement('a')
-  a.href = base64Data
-  a.download = filename.value
-  a.style.display = 'none'
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-}
 
 const initChart = () => {
   chart = echarts.init(sheet.value)
@@ -285,6 +257,66 @@ const initChart = () => {
 
 const getBaiduApi = () => {
   return chart.getModel().getComponent('bmap').getBMap()
+}
+
+const addGeoJson = (bmap) => {
+  bmap.addOverlay(chinaJson)
+}
+
+const addChinaLayer = (bmap) => {
+  const polygonStyle = {
+    strokeWeight: 2,
+    strokeColor: '#ff0000',
+    fillColor: 'transparent',
+    fillOpacity: 0
+  }
+  const province = [
+    '内蒙古自治区',
+    '黑龙江省',
+    '吉林省',
+    '辽宁省',
+    '新疆',
+    '西藏',
+    '海南',
+    '宁夏',
+    '青海',
+    '甘肃',
+    '云南',
+    '陕西',
+    '河南',
+    '山东',
+    '江苏',
+    '安徽',
+    '湖北',
+    '湖南',
+    '江西',
+    '四川',
+    '重庆',
+    '贵州',
+    '广西',
+    '广东',
+    '北京',
+    '上海',
+    '天津',
+    '河北'
+  ]
+  const bdary = new BMap.Boundary()
+  province.forEach((name) => {
+    bdary.get(name, function (rs) {
+      console.log(rs)
+      var count = rs.boundaries.length //行政区域的点有多少个
+      if (count === 0) {
+        alert('未能获取当前输入行政区域')
+        return
+      }
+      var pointArray = []
+      for (var i = 0; i < count; i++) {
+        var ply = new BMap.Polygon(rs.boundaries[i], polygonStyle) //建立多边形覆盖物
+        bmap.addOverlay(ply) //添加覆盖物
+        pointArray = pointArray.concat(ply.getPath())
+      }
+    })
+  })
 }
 
 const customBMapArea = () => {
@@ -377,15 +409,31 @@ const customBMapArea = () => {
 }
 
 const driveApi = () => {
+  function onSearchComplete(ridingRouteResult) {
+    console.log(ridingRouteResult)
+
+    let numPlans = ridingRouteResult.getNumPlans()
+    console.log(numPlans) //返回方案个数
+
+    let routePlan = ridingRouteResult.getPlan(0) //取第0（1）条路线规划
+    let numRoutes = routePlan.getNumRoutes() //返回方案包含的线路的个数
+  }
   var driving = new BMap.DrivingRoute(bMap, {
     renderOptions: {
       map: bMap,
+      panel: mapResult.value,
       autoViewport: true
-    }
+    },
+    // policy: 'BMAP_DRIVING_POLICY_AVOID_HIGHWAYS',
+    onSearchComplete
   })
   var start = new BMap.Point(116.310791, 40.003419)
-  var end = new BMap.Point(116.486419, 39.877282)
+  // var end = new BMap.Point(116.486419, 39.877282)
+  var end = new BMap.Point(119.6, 39.93)
   driving.search(start, end)
+  setTimeout(() => {
+    console.log(driving.getResults())
+  }, 3000)
 }
 const getLocation = () => {
   var geolocation = new BMap.Geolocation()
@@ -393,35 +441,53 @@ const getLocation = () => {
     console.log(res)
   })
 }
+/**
+ * 创建交通图层
+ */
+const createTrafficLayer = () => {
+  var traffic = new BMap.TrafficLayer() // 创建交通流量图层实例
+  bMap.addTileLayer(traffic)
+}
 
 onMounted(() => {
   initChart()
   bMap = getBaiduApi()
-// console.log(bMap.getBMap())
-//  var map = new BMap.Map("map"); 
-// console.log(map)
-  driveApi()
+  // createTrafficLayer()
+  // driveApi()
+  // addChinaLayer(bMap)
+  addGeoJson(bMap)
 })
-// 5760 3240
 </script>
 
 <style lang="less" scoped>
 .sheet {
   position: fixed;
+  right: 0;
+  bottom: 0;
   top: 0%;
   left: 0%;
-  z-index: 9999999;
-  width: 200%;
-  height: 200%;
+  z-index: 101;
+  width: 100%;
+  height: 100%;
   background: #fff;
 }
 .tool {
   display: true;
   position: absolute;
-  z-index: 100000000;
+  z-index: 102;
+  bottom: 0;
   right: 0;
-  top: 0;
   background: rgba(23, 49, 71, 0.8);
+  width: 700px;
+}
+.map-result {
+  position: absolute;
+  right: 0;
+  top: 120px;
+  width: 500px;
+  height: 400px;
+  z-index: 2;
+  background: #f00;
 }
 </style>
 <!-- 
