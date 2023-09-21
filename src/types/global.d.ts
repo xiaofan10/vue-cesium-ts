@@ -7,3 +7,7 @@ declare global {
     [key: string]: any
   }
 }
+declare module 'BMap' {
+  const BMap: any // 或者根据实际情况声明 BMap 的类型
+  export = BMap
+}

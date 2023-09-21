@@ -35,7 +35,8 @@ import { computed, onMounted, ref } from 'vue'
 import northEastL4 from '@/assets/geo/northEastL4.json'
 import northEastL3 from '@/assets/geo/northEastL3.json'
 import northEastL2 from '@/assets/geo/northEastL2.json'
-import chinaGeo from '@/assets/geo/china.json'
+import beijing from '@/assets/geo/beijing.json'
+import china from '@/assets/geo/china.json'
 import geoCoord from '@/assets/geo/dd.json'
 import yangzhi from '@/assets/images/yangzhi.png'
 import dadou from '@/assets/images/dadou.png'
@@ -167,6 +168,26 @@ const mapBg3 = () => {
   }
 }
 
+const addMap = (name, type) => {
+  return {
+    name,
+    type: 'map',
+    map: type,
+    roam: true,
+    z: 1,
+    label: {
+      show: true,
+      fontSize: fontSize.value,
+      fontWeight: 'bold'
+    },
+    itemStyle: {
+      borderColor: '#fff',
+      borderWidth: 1,
+      areaColor: '#5EC4FC'
+    }
+  }
+}
+
 // scatterCity()
 
 const getOptions = () => ({
@@ -241,28 +262,8 @@ const getOptions = () => ({
 
     // mapBg2(),
     // mapBg3()
-
-    {
-      name: '中国地图',
-      type: 'map',
-      map: 'chinaGeo',
-      roam: true,
-
-      z: 1,
-      label: {
-        show: true,
-        fontSize: fontSize.value,
-        fontWeight: 'bold'
-        // formatter({ name }) {
-        //   return !includes.includes(name) ? name : ''
-        // }
-      },
-      itemStyle: {
-        borderColor: '#fff',
-        borderWidth: 1,
-        areaColor: '#5EC4FC'
-      }
-    }
+    // addMap('北京', 'beijing')
+    addMap('中国', 'china')
   ]
 })
 
@@ -323,8 +324,8 @@ const initChart = () => {
   echarts.registerMap('northEastL4', northEastL4 as any)
   echarts.registerMap('northEastL3', northEastL3 as any)
   echarts.registerMap('northEastL2', northEastL2 as any)
-  echarts.registerMap('chinaGeo', chinaGeo as any)
-  console.log(chinaGeo)
+  echarts.registerMap('china', china as any)
+  echarts.registerMap('beijing', beijing as any)
   chart.setOption(getOptions())
 }
 
