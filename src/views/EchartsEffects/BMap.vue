@@ -21,16 +21,14 @@
 
 <script setup lang="ts">
 import * as echarts from 'echarts'
-import registerBMap from '@/utils/bmap'
-import { computed, onMounted, ref, watch } from 'vue'
-import mockList from '@/assets/mock/companys.js'
-import northEastL4 from '@/assets/geo/northEastL4.json'
-import northEastL2 from '@/assets/geo/northEastL2.json'
-import chinaJson from '@/assets/geo/china.json'
-import bmapJson from '@/assets/geo/bmap.json'
-import geoCoord from '@/assets/geo/dd.json'
 import 'echarts/extension/bmap/bmap'
+import registerBMap from '@/utils/bmap'
+import { onMounted, ref, watch } from 'vue'
+import mockList from '@/assets/mock/companys.js'
+import chinaJson from '@/assets/geo/china.json'
+import BMRender from '@/lib/bmap/bmrender'
 import axios from 'axios'
+
 const columns = [
   { title: '公司名称', width: 100, dataIndex: 'group', key: 'group', fixed: 'left' },
   { title: '单位名称', width: 100, dataIndex: 'company', key: 'company', fixed: 'left' },
@@ -47,6 +45,7 @@ const columns = [
   // }
 ]
 
+let bmRender: any
 let map: any
 let BMap: any
 
@@ -127,8 +126,6 @@ class Map {
 
   initChart() {
     const chart = echarts.init(this.dom)
-    echarts.registerMap('northEastL4', northEastL4 as any)
-    echarts.registerMap('northEastL2', northEastL2 as any)
     const option: any = this.getOption(data.value)
     chart.setOption(option)
     this.chart = chart
@@ -427,6 +424,10 @@ class Map {
         Object.assign(style, hoverStyle)
       }
       const polyline = new BMap.Polyline(item.route, style)
+      setTimeout(() => {
+        polyline.setStrokeWeight(20)
+        polyline.hide()
+      }, 10000)
       item.overlay = polyline
       bmap.addOverlay(polyline)
     })
@@ -574,9 +575,9 @@ class Map {
   }
 }
 
-const addGeoJson = (bmap) => {
-  bmap.addOverlay(chinaJson)
-}
+// const addGeoJson = (bmap) => {
+//   bmap.addOverlay(chinaJson)
+// }
 
 watch(
   data,
@@ -597,8 +598,13 @@ const handleSelect = (arg) => {
     type: `${startPoint.value[0]}|${startPoint.value[1]}-${arg.point[0]}|${arg.point[1]}`
   })
 }
+const onBMLoad = () => {
+  console.log('bm 加载啦', bmRender)
+}
 
 onMounted(() => {
+  // bmRender = new BMRender({ onLoad: onBMLoad })
+
   registerBMap.init().then((res) => {
     BMap = res
     map = new Map(sheet.value)
@@ -640,169 +646,3 @@ onMounted(() => {
   background: #f00;
 }
 </style>
-<!-- 
-<script setup lang="ts">
-import * as echarts from 'echarts'
-import { onMounted, ref } from 'vue'
-import northEastL2 from '@/assets/geo/northEastL2.json'
-import 'echarts/extension/bmap/bmap'
-
-const sheet = ref<HTMLDivElement>()
-onMounted(() => {
-  const chart = echarts.init(sheet.value)
-  echarts.registerMap('northEast', northEastL2 as any)
-  chart.setOption({
-    bmap: {
-      center: [104.114129, 37.550339],
-      zoom: 5,
-      roam: true,
-      mapStyle: {
-        styleJson: [
-          {
-            featureType: 'water',
-            elementType: 'all',
-            stylers: {
-              color: '#044161'
-            }
-          },
-          {
-            featureType: 'land',
-            elementType: 'all',
-            stylers: {
-              color: '#004981'
-            }
-          },
-          {
-            featureType: 'boundary',
-            elementType: 'geometry',
-            stylers: {
-              color: '#064f85'
-            }
-          },
-          {
-            featureType: 'railway',
-            elementType: 'all',
-            stylers: {
-              visibility: 'off'
-            }
-          },
-          {
-            featureType: 'highway',
-            elementType: 'geometry',
-            stylers: {
-              color: '#004981'
-            }
-          },
-          {
-            featureType: 'highway',
-            elementType: 'geometry.fill',
-            stylers: {
-              color: '#005b96',
-              lightness: 1
-            }
-          },
-          {
-            featureType: 'highway',
-            elementType: 'labels',
-            stylers: {
-              visibility: 'off'
-            }
-          },
-          {
-            featureType: 'arterial',
-            elementType: 'geometry',
-            stylers: {
-              color: '#004981'
-            }
-          },
-          {
-            featureType: 'arterial',
-            elementType: 'geometry.fill',
-            stylers: {
-              color: '#00508b'
-            }
-          },
-          {
-            featureType: 'poi',
-            elementType: 'all',
-            stylers: {
-              visibility: 'off'
-            }
-          },
-          {
-            featureType: 'green',
-            elementType: 'all',
-            stylers: {
-              color: '#056197',
-              visibility: 'off'
-            }
-          },
-          {
-            featureType: 'subway',
-            elementType: 'all',
-            stylers: {
-              visibility: 'off'
-            }
-          },
-          {
-            featureType: 'manmade',
-            elementType: 'all',
-            stylers: {
-              visibility: 'off'
-            }
-          },
-          {
-            featureType: 'local',
-            elementType: 'all',
-            stylers: {
-              visibility: 'off'
-            }
-          },
-          {
-            featureType: 'arterial',
-            elementType: 'labels',
-            stylers: {
-              visibility: 'off'
-            }
-          },
-          {
-            featureType: 'boundary',
-            elementType: 'geometry.fill',
-            stylers: {
-              color: '#029fd4'
-            }
-          },
-          {
-            featureType: 'building',
-            elementType: 'all',
-            stylers: {
-              color: '#1a5787'
-            }
-          },
-          {
-            featureType: 'label',
-            elementType: 'all',
-            stylers: {
-              visibility: 'on'
-            }
-          }
-        ]
-      }
-    },
-    series: [
-      {
-        name: 'pm2.5',
-        type: 'scatter',
-        roam: true,
-        coordinateSystem: 'bmap',
-        emphasis: {
-          label: {
-            show: true
-          }
-        },
-        data: []
-      }
-    ]
-  })
-})
-</script> -->
