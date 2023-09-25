@@ -25,6 +25,7 @@ import 'echarts/extension/bmap/bmap'
 import registerBMap from '@/utils/bmap'
 import { onMounted, ref, watch } from 'vue'
 import mockList from '@/assets/mock/companys.js'
+import mockRoutes from '@/assets/mock/routes.json'
 import chinaJson from '@/assets/geo/china.json'
 import BMRender from '@/lib/bmap/bmrender'
 import axios from 'axios'
@@ -121,7 +122,7 @@ class Map {
   constructor(dom) {
     this.dom = dom
     this.initChart()
-    this.initControl()
+    // this.initControl()
   }
 
   initChart() {
@@ -598,20 +599,70 @@ const handleSelect = (arg) => {
     type: `${startPoint.value[0]}|${startPoint.value[1]}-${arg.point[0]}|${arg.point[1]}`
   })
 }
+
 const onBMLoad = () => {
   console.log('bm 加载啦', bmRender)
+
+  const { BMap } = bmRender
+  const emap = new Map(sheet.value)
+  const bmap = emap.bmap
+  bmRender.setBmap(bmap)
+  const start = [116.310791, 40.003419]
+  const end = [119.6, 39.93]
+  const routes: any[] = []
+  mockRoutes.data.result.routes.forEach((route) => {
+    const routePoint = []
+    route.steps.forEach((step: any) => {
+      const arr = step.path.split(';')
+      arr.forEach((p) => {
+        const sp = p.split(',')
+        routePoint.push(new BMap.Point(...sp))
+      })
+    })
+    routes.push({
+      type: 'route',
+      distance: route.distance,
+      duration: route.duration,
+      path: routePoint
+    })
+  })
+  bmRender.addGraphic(routes).draw()
+
+  // const driving = new BMap.DrivingRoute(bmap, {
+  //   onSearchComplete(res) {
+  //     const related = `${start[0]}|${start[1]}-${end[0]}|${end[1]}`
+  //     let numPlans = res.getNumPlans() //返回规划方案的个数
+  //     let routePlan = res.getPlan(0) //取第0（1）条路线规划
+  //     let numRoutes = routePlan.getNumRoutes() //返回方案包含的线路的个数
+  //     const route = routePlan.getRoute(0) //返回第一条线路
+  //     const path = route.getPath()
+  //     const distance = route.getDistance()
+  //     const duration = routePlan.getDuration()
+  //     routes.push({
+  //       type: 'route',
+  //       related,
+  //       distance,
+  //       duration,
+  //       path
+  //     })
+  //     bmRender.addGraphic(routes).draw()
+  //   }
+  // })
+  // var startPoint = new BMap.Point(...start)
+  // var endPoint = new BMap.Point(...end)
+  // driving.search(startPoint, endPoint)
 }
 
 onMounted(() => {
-  // bmRender = new BMRender({ onLoad: onBMLoad })
+  bmRender = new BMRender({ onLoad: onBMLoad })
 
-  registerBMap.init().then((res) => {
-    BMap = res
-    map = new Map(sheet.value)
-    map.addBmapControl()
-    map.bindEvent()
-    map.searchRoute([116.310791, 40.003419], [119.6, 39.93])
-  })
+  // registerBMap.init().then((res) => {
+  //   BMap = res
+  //   map = new Map(sheet.value)
+  //   map.addBmapControl()
+  //   map.bindEvent()
+  //   map.searchRoute([116.310791, 40.003419], [119.6, 39.93])
+  // })
 })
 </script>
 

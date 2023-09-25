@@ -11,8 +11,13 @@ class Model {
   setId(prefix: string): string {
     return (prefix || '') + '_' + this.BMId++
   }
+
   getGraphic(): any[] {
     return this.graphics
+  }
+
+  getGraphicNum() {
+    return this.graphics.length
   }
 
   addGraphic(graphic: any) {
