@@ -610,6 +610,7 @@ const onBMLoad = () => {
   const start = [116.310791, 40.003419]
   const end = [119.6, 39.93]
   const routes: any[] = []
+
   mockRoutes.data.result.routes.forEach((route) => {
     const routePoint = []
     route.steps.forEach((step: any) => {
@@ -627,30 +628,6 @@ const onBMLoad = () => {
     })
   })
   bmRender.addGraphic(routes).draw()
-
-  // const driving = new BMap.DrivingRoute(bmap, {
-  //   onSearchComplete(res) {
-  //     const related = `${start[0]}|${start[1]}-${end[0]}|${end[1]}`
-  //     let numPlans = res.getNumPlans() //返回规划方案的个数
-  //     let routePlan = res.getPlan(0) //取第0（1）条路线规划
-  //     let numRoutes = routePlan.getNumRoutes() //返回方案包含的线路的个数
-  //     const route = routePlan.getRoute(0) //返回第一条线路
-  //     const path = route.getPath()
-  //     const distance = route.getDistance()
-  //     const duration = routePlan.getDuration()
-  //     routes.push({
-  //       type: 'route',
-  //       related,
-  //       distance,
-  //       duration,
-  //       path
-  //     })
-  //     bmRender.addGraphic(routes).draw()
-  //   }
-  // })
-  // var startPoint = new BMap.Point(...start)
-  // var endPoint = new BMap.Point(...end)
-  // driving.search(startPoint, endPoint)
 }
 
 onMounted(() => {

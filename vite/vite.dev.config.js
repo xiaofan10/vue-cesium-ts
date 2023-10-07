@@ -1,4 +1,6 @@
 import checker from 'vite-plugin-checker'
+import { join } from 'path'
+import { writeFileSync } from 'fs'
 
 export default {
   plugins: [
@@ -7,6 +9,9 @@ export default {
     })
   ],
   server: {
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
     port: 8888,
     proxy: {
       '/api': {

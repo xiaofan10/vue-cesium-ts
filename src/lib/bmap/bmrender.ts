@@ -3,6 +3,7 @@ import Model from './model'
 import Handler from './handler'
 import Event from './event'
 import Shape from './shape'
+import { graphic } from 'echarts'
 
 const strokeColor = ['#f00', '#ff9900', '#0f0', '00f']
 
@@ -93,15 +94,23 @@ class BMRender {
     }
   }
 
+  clear() {
+    const { bmap } = this
+    const graphics = this.getGraphic()
+    const hoverGraphics = this.model.getHoverGraphics()
+    graphics.forEach((graph) => {
+      bmap.removeOverlay(graph.overlay)
+    })
+    hoverGraphics.forEach((graph) => {
+      bmap.removeOverlay(graph.overlay)
+    })
+  }
+
   draw() {
     const { shape, bmap } = this
     const graphics = this.getGraphic()
+    const hoverGraphics = this.model.getHoverGraphics()
     graphics.forEach((graph) => {
-      // const style = Object.assign({}, defaultStyle, graph.isHover ? hoverStyle : {})
-      // const graphInstance = shape[graph.type](graph.path, style)
-      // this.bind(graphInstance, 'mouseover', this.hover)
-      // this.bind(graphInstance, 'mouseout', this.reset)
-      // graph.overlay = graphInstance
       bmap.addOverlay(graph.overlay)
       if (graph.type === 'route') {
         const start = graph.path[0]
@@ -136,13 +145,37 @@ class BMRender {
 
   hover(e) {
     const { currentTarget } = e
-    console.log(currentTarget.getMap().getPanes())
-    this.updateGraphic(currentTarget, hoverStyle)
+    const hoversMap = this.model.getHoverGraphicsMap()
+    const hovers = this.model.getHoverGraphics()
+
+    this.model.getGraphic().forEach((graphic) => {
+      if (graphic.overlay === currentTarget) {
+        if (hoversMap[graphic.id]) return
+        console.log(graphic.levels)
+        if (hovers.length > 0 && hovers[0].levels < graphic.levels) {
+          this.reset()
+        }
+        graphic.hoverOverlay = new this.BMap.Polyline(graphic.path, {
+          strokeColor: '#a8fe22',
+          strokeWeight: 6,
+          setStrokeStyle: 'dashed',
+          strokeOpacity: 1
+        })
+        this.bmap.addOverlay(graphic.hoverOverlay)
+        // graphic.overlay.hide()
+        this.model.addHoverGraphic(graphic)
+      }
+    })
   }
 
-  reset(e) {
-    const { currentTarget } = e
-    this.updateGraphic(currentTarget, defaultStyle)
+  reset() {
+    const hoverGraphics = this.model.getHoverGraphics()
+    hoverGraphics.forEach((graphic) => {
+      graphic.isHover = false
+      this.bmap.removeOverlay(graphic.hoverOverlay)
+      // graphic.overlay.show()
+    })
+    this.model.removeAllHoverGraphic()
   }
 
   bind(graphfic, event, callback) {

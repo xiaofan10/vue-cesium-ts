@@ -20,6 +20,7 @@
     "consola": "^3.2.3",
     "css-doodle": "^0.34.10",
     "echarts": "^5.4.3",
+    "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.4",
     "require": "^2.4.20",

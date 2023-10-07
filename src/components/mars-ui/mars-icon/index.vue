@@ -4,7 +4,7 @@
 <script lang="ts">
 import { computed, useAttrs, defineComponent } from 'vue'
 import * as svgModule from '@icon-park/svg'
-import _ from 'lodash'
+import * as _ from 'lodash'
 export default defineComponent({
   name: 'mars-icon',
   // inheritAttrs: false,

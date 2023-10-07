@@ -1,8 +1,10 @@
 class Model {
   BMId: number = 0
   BMap: any
+  level: number = 0
   graphics: any[] = []
   graphicsMap: any = {}
+
   hoverGraphics: any[] = []
   hoverGraphicsMap: any = {}
   constructor(BMap) {
@@ -15,6 +17,9 @@ class Model {
   getGraphic(): any[] {
     return this.graphics
   }
+  getGraphicMap(): any {
+    return this.graphicsMap
+  }
 
   getGraphicNum() {
     return this.graphics.length
@@ -24,6 +29,7 @@ class Model {
     if (graphic) {
       if (!graphic.id) {
         graphic.id = this.setId(graphic.type)
+        graphic.levels = this.level++ // 越大代表后渲染
         graphic.isHover = false
       }
       this.graphics.push(graphic)
@@ -53,10 +59,22 @@ class Model {
     return this.hoverGraphics
   }
 
+  getHoverGraphicsMap(): any {
+    return this.hoverGraphicsMap
+  }
+
   addHoverGraphic(graphic: any) {
+    graphic.isHover = true
     this.hoverGraphics.push(graphic)
     this.hoverGraphicsMap[graphic.id] = graphic
     return this
+  }
+  removeAllHoverGraphic() {
+    this.hoverGraphics.forEach((graphic) => {
+      graphic.isHover = false
+    })
+    this.hoverGraphics = []
+    this.hoverGraphicsMap = {}
   }
 
   removeHoverGraphic(id: string) {
